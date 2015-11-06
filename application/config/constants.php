@@ -83,3 +83,9 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+define('APP_HOME', 			$_SERVER['DOCUMENT_ROOT'].'/');
+define('URL_HOME', 			'http://localhost/smart-search/');
+
+define('DEFAULT_CRAWL_URL',	'http://www.stdio.vn/articles/read/');
+define('SAVE_PATH', 'crawl_data/');
