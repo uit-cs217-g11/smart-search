@@ -14,9 +14,7 @@ Type 'git clone https://github.com/uit-cs217-g11/smart-search.git'
 	+ Open Web Browser.
 	+ Enter link localhost/project-name. Eg: localhost/smart-search
 	
-------------------------
------- Optional---------
-------------------------
-_ Download and nstall Aptana Studio: http://www.aptana.com/
-_ After install, open Aptana and find path into project directory.
-_ Right click in project directory (htdocs/smart-search), choose Promote to Project.
+_ Optional
+	+ Download and nstall Aptana Studio: http://www.aptana.com/
+	+ After install, open Aptana and find path into project directory.
+	+ Right click in project directory (htdocs/smart-search), choose Promote to Project.
