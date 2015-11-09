@@ -1,0 +1,37 @@
+body
+{
+	background:url(images.jpg);
+}
+.title h1
+ {
+	color:#0923EC;
+	 font-size:400%;
+	  margin-top:10%;
+	   margin-left:38%
+}
+.search_form input
+{
+	width:15cm; height:1cm; margin-left:10cm;	
+}
+.search_form button
+{
+	color:#DC22FD;
+	 height:1.5cm;
+	  width:4cm;
+	  background-color:#E8C6C8 ;	
+}
+.dev_team
+{
+	margin-left:47%;
+	 color:#0115F7;
+	 margin-bottom:1cm;
+}
+.crawl_button button
+{
+	color:#F90E12; height:3cm; width:4cm; background:#52B46F; float:right; font-size:100%; padding-top:0m;
+}
+.analyze_button button
+{
+	color:#F90E12; height:3cm; width:4cm; background:#52B46F; float:left; font-size:100%; padding-top:0m;
+}
+
