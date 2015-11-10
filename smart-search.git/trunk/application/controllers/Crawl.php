@@ -1,5 +1,5 @@
 <?php
-	class Home extends CI_Controller
+	class Crawl extends CI_Controller
 	{
 		public function index()
 		{
@@ -17,8 +17,10 @@
 				
 				write_file(SAVE_PATH.$i.'.html', $html);
 			}
-						
-			$this->load->view('pc/index',$this->data);
+			
+			echo SAVE_PATH;
+			
+			$this->load->view('pc/index');
 		}
 	}
 ?>

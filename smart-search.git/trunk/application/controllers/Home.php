@@ -18,7 +18,7 @@
 				write_file(SAVE_PATH.$i.'.html', $html);
 			}
 						
-			$this->load->view('pc/index',$this->data);
+			$this->load->view('pc/index');
 		}
 	}
 ?>

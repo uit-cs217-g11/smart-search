@@ -1,13 +1,15 @@
-﻿<html>
+﻿<!doctype html>
+<html>
 <head>
-		<title></title>
-		<link type="text/css"  rel="stylesheet"  href="<?= base_url(); ?>statics/pc/css_styles.css" />
-	</head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="<? echo base_url();?>statics/pc/style_css.css">
+</head>
 <body>
 <div class="title"><h1 >Smart Search</h1></div>
 	<div class="search_form">
 	  <input type="text" class="search_text" placeholder="Tìm bài viết"  />
-     	  <button  > SEARCH</button> 
+     	  <button > SEARCH</button> 
 	</div>
 
 <div class="dev_team " >
@@ -24,4 +26,4 @@
 <button  > Analyze </button>
 </div>
 </body>
-<html>
+</html>
