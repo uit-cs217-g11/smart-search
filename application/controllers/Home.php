@@ -1,6 +1,13 @@
 <?php
 	class Home extends CI_Controller
 	{
+		public function __construct()
+		{
+			parent::__construct();
+		
+			$this->data['META_TITLE'] = "Smart-Search";
+		}
+
 		public function index()
 		{
 			$this->load->helper('file');
@@ -16,8 +23,9 @@
 				curl_close ($curl);
 				
 				write_file(SAVE_PATH.$i.'.html', $html);
-			}		
-			$this->load->view('pc/index',$this->data);
+			}
+				
+			$this->load->view('pc/index');
        			
 		}
 	}
