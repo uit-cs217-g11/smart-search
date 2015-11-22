@@ -1,3 +1,7 @@
+body
+{
+background:#B3E5FC;
+}
 .title h1
  {
 	color:#0923EC;
@@ -11,22 +15,22 @@
 }
 .search_form button
 {
-	color:#DC22FD;
+	color:#FFFFFF;
 	 height:1.5cm;
 	  width:4cm;
-	  background-color:#E8C6C8 ;	
+	  background-color:#0288D1;	
 }
 .dev_team
 {
 	margin-left:47%;
-	 color:#0115F7;
+	 color:#0923EC;
 	 margin-bottom:1cm;
 }
 .crawl_button button
 {
-	color:#F90E12; height:3cm; width:4cm; background:#52B46F; float:right; font-size:100%; padding-top:0m;
+	color:#FFFFFF; height:2cm; width:2cm;  background-color:#0288D1; float:right; font-size:100%; padding-top:0m;
 }
 .analyze_button button
 {
-	color:#F90E12; height:3cm; width:4cm; background:#52B46F; float:left; font-size:100%; padding-top:0m;
+	color:#FFFFFF; height:2cm; width:2cm; background-color:#0288D1; float:left; font-size:100%; padding-top:0m;
 }
