@@ -25,6 +25,7 @@ function ajax_search_article(event)
 		return;
 	}
 	
+	search_str = encodeURIComponent(search_str);
 	var FULL_URI = STDIO.SMART_SEARCH_HOME + '/articles' + '/search/' + search_str + '/1';
 	window.location = FULL_URI;
 }

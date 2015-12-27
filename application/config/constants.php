@@ -97,3 +97,5 @@ define('DEVICE_UNKNOWN',	0);
 define('DEVICE_PC',			1);
 define('DEVICE_PHONE',		2);
 define('DEVICE_TABLET',		3);
+
+define('CHAR_EMPTY',	'');
