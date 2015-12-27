@@ -53,6 +53,17 @@ class Articles extends MY_Controller
 			return redirect('http://www.stdio.vn'.'/articles/read/'.$id_temp[1], 'refresh');
 		}
 		
+		// PERFORM REDIRECT TO #ID AUTHOR
+		$id_temp = NULL;
+		preg_match('/^&(\d+)/', $search_str, $id_temp);
+		if ($id_temp != NULL)
+		{
+			$id_temp[1] = intval($id_temp[1]);
+			//$url_temp = $this->Articles_model->SelectArticleFriendlyURL($id_temp[1]);
+			
+			return redirect('http://www.stdio.vn'.'/users/index/'.$id_temp[1], 'refresh');
+		}
+		
 		$keywords = explode('|', $search_str);
 		
 		
