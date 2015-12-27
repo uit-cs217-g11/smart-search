@@ -8,8 +8,8 @@
 			<div class="wrapper_content_column_2_element">
 				<div class="title">Smart Search</div>
 				
-				<input type="text" placeholder="Tìm bài viết" />
-				<div class="button_wide">SEARCH</div>
+				<input type="text" id="id_search_str" placeholder="Tìm bài viết" onkeydown="ajax_search_article(event)"/>
+				<div class="button_wide" onclick="ajax_search_article()">SEARCH</div>
 			</div>
 
 			

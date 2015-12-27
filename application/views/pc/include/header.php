@@ -28,7 +28,12 @@
 <meta property="og:site_name" content="<?=$META_SITENAME?>" />
 <meta property="og:description" content="<?=$META_DESC?>" />
 
-<link rel="stylesheet" type="text/css" href="statics/pc/css_styles.css">
+<link rel="stylesheet" type="text/css" href="<?=URL_HOME?>/statics/external_data/css_constructor.css"/>
+<link rel="stylesheet" type="text/css" href="<?=URL_HOME?>/statics/pc/css_styles.css"/>
+
+<script type="text/javascript" src="<?=URL_HOME?>/statics/external_data/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="<?=URL_HOME?>/statics/external_data/js_constructor.js"></script>
+<script type="text/javascript" src="<?=URL_HOME?>/statics/shared/js_script.js"></script>
 
 </head>
 

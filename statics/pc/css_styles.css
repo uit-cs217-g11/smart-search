@@ -1,23 +1,23 @@
 /* ======= EXTERNAL FONT ======= */
 @font-face {
-    font-family: 'Miriad';
+    font-family: 'roboto';
     font-style: normal;
     font-weight: 400;
-    src: local('Miriad Regular'), local('Miriad-Regular'), url(http://localhost/statics/100/shared/font-miriad/MYRIADPRO-REGULAR.OTF) format('truetype');
+    src: local('roboto Regular'), local('roboto-regular'), url(http://localhost/smart-search/statics/external_data/font-roboto/Roboto-Regular.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'Miriad';
+    font-family: 'roboto';
     font-style: italic;
     font-weight: 400;
-    src: local('Miriad Italic'), local('Miriad-Italic'), url(http://localhost/statics/100/shared/font-miriad/MYRIADPRO-ITALIC.OTF) format('truetype');
+    src: local('roboto Italic'), local('roboto-italic'), url(http://localhost/smart-search/statics/external_data/font-roboto/Roboto-Italic.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'Miriad';
+    font-family: 'roboto';
     font-style: bold;
     font-weight: 700;
-    src: local('Miriad Bold'), local('Miriad-Bold'), url(http://localhost/statics/100/shared/font-miriad/MYRIADPRO-BOLD.OTF) format('truetype');
+    src: local('roboto Bold'), local('roboto-bold'), url(http://localhost/smart-search/statics/external_data/font-roboto/Roboto-Bold.ttf) format('truetype');
 }
 
 ::selection{
@@ -50,7 +50,7 @@ color:#fb3;
 /* ======= MASTER ENT ======= */
 
 body{
-font-family:"Miriad",Arial,Helvetica,sans-serif;
+font-family:"roboto",Arial,Helvetica,sans-serif;
 font-size:100%;
 margin:0; 
 }
