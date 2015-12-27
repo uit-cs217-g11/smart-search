@@ -45,7 +45,6 @@
 		<div class="wrapper_menu">
 			<a class="head_navigate_button<?=($SEGMENT_1==''||$SEGMENT_1=='home')?'_active':''?>" href=""><span>TRANG CHỦ</span></a>
 			<a class="head_navigate_button<?=$SEGMENT_1=='articles'?'_active':''?>" href="articles"><span>BÀI VIẾT</span></a>
-			<a class="head_navigate_button<?=$SEGMENT_1=='info'?'_active':''?>" href="info"><span>THÔNG TIN</span></a>
 			<a class="head_navigate_button<?=$SEGMENT_1=='developers'?'_active':''?>" href="developers">NHÓM PHÁT TRIỂN</a>
 		</div>
 	</div>

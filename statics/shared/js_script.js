@@ -15,17 +15,16 @@ function ajax_search_article(event)
 	search_str = search_str.replace(/\s+/g, ' ');
 	search_str = $.trim(search_str);
 	
-	var request = $.ajax({
-		url:"/articles/ajax_search_article",
-  		type:"POST",
-  		data:{a_search_str:search_str},
-  		dataType:"html"
-	})
-	.done(function(msg) {
-		var result = msg.split(STDIO.AJAX_DELIMITER);
-		if (result[0]==true)
-		{
-			
-		}
-	});
+	if (search_str.length == 0)
+	{
+		$('#id_search_str').val('');
+		return;
+	}
+	else if (search_str.length < 2)
+	{
+		return;
+	}
+	
+	var FULL_URI = STDIO.SMART_SEARCH_HOME + '/articles' + '/search/' + search_str + '/1';
+	window.location = FULL_URI;
 }

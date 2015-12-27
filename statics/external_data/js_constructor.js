@@ -18,7 +18,7 @@ KEY_NUM_9		: 57,
 CHAR_EMPTY		: '',
 CHAR_SPACE		: ' ',
 
-STDIO_HOME		: 'http://'+window.location.hostname,
+SMART_SEARCH_HOME	: 'http://'+window.location.hostname+'/smart-search',
 
 AJAX_DELIMITER	: '~~~',
 
