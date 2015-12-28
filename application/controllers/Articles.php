@@ -50,13 +50,13 @@ class Articles extends MY_Controller
 		if ($id_temp != NULL)
 		{
 			$id_temp[1] = intval($id_temp[1]);
-			$url_temp = $this->Articles_model->SelectArticleFriendlyURL($id_temp[1]);
+			//$url_temp = $this->Articles_model->SelectArticleFriendlyURL($id_temp[1]);
 			
-			if ($url_temp != FALSE)
-			{
-				return redirect('http://www.stdio.vn'.'/articles/read/'.$id_temp[1].'/'.$url_temp->friendly_url, 'refresh');
+			//if ($url_temp != FALSE)
+			//{
+				return redirect('http://www.stdio.vn'.'/articles/read/'.$id_temp[1], 'refresh');
 				//return redirect(SMART_SEARCH_HOME.'/articles/read/'.$id_temp[1].'/'.$url_temp->friendly_url, 'refresh');
-			}
+			//}
 		}
 		
 		// PERFORM REDIRECT TO #ID AUTHOR
@@ -69,9 +69,13 @@ class Articles extends MY_Controller
 		}
 		
 		$keywords = explode('|', $search_str);
+		$this->data['articles_brief'] = $this->Articles_model->SelectArticlesBriefByKeywords($keywords);
+		
+		// TODO
+		// Add Paging
 
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
-		//$this->load->view($this->data['PATH_VIEW'].'/articles/index', $this->data);
+		//$this->load->view($this->data['PATH_VIEW'].'/articles/search', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
 	}
 }
