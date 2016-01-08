@@ -48,4 +48,14 @@ class Articles_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result();
 	}
+	
+	function EmptyTableArticle()
+	{
+		
+	}
+	
+	function InsertArticle($category_id, $title, $description, $author_id, $content, $tag, $friendly_url)
+	{
+		
+	}
 }

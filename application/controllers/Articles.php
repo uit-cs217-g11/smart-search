@@ -43,7 +43,7 @@ class Articles extends MY_Controller
 	{
 		// VALIDATE
 		$search_str = urldecode($search_str);
-
+		
 		// PERFORM REDIRECT TO #ID ARTICLE
 		$id_temp = NULL;
 		preg_match('/^#(\d+)/', $search_str, $id_temp);
@@ -68,14 +68,18 @@ class Articles extends MY_Controller
 			return redirect('http://www.stdio.vn'.'/users/index/'.$id_temp[1], 'refresh');
 		}
 		
-		$keywords = explode('|', $search_str);
+		$this->data['keywords'] = $search_str;
+		
+		$keywords = explode('+', $search_str);
 		$this->data['articles_brief'] = $this->Articles_model->SelectArticlesBriefByKeywords($keywords);
+		
+		
 		
 		// TODO
 		// Add Paging
 
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
-		//$this->load->view($this->data['PATH_VIEW'].'/articles/search', $this->data);
+		$this->load->view($this->data['PATH_VIEW'].'/articles/search', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
 	}
 }
