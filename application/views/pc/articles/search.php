@@ -15,7 +15,7 @@
 			<?php if (count($articles_brief) > 0) { ?>
 			<div class="wrapper_content_column_2_element">
 				 <?php foreach($articles_brief as $article) { ?>
-				 	<div><?=$article->id?></div>
+				 	<div><?=$article->article_id?></div>
 					<div><?=$article->title?></div>
 					<div><?=$article->description?></div>
 					</br>

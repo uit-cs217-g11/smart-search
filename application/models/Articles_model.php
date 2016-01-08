@@ -28,18 +28,18 @@ class Articles_model extends CI_Model
 		if($keywords == NULL)
 			return FALSE;
 			
-		$this->db->select(' b.id as id,
+		$this->db->select(' b.article_id as article_id,
 							b.category_id as category_id,
 							b.title as title,
 							b.description as description,
 							b.author_id as author_id,
 							b.content as content,
-							b.tag as tag,
+							b.tags as tags,
 							b.friendly_url as friendly_url');
 		
 		$this->db->select_sum('a.weight');
 		$this->db->from($this->tbl_keywords . ' as a');
-		$this->db->join($this->tbl_articles. ' as b', 'a.article_id = b.id');
+		$this->db->join($this->tbl_articles. ' as b', 'a.article_id = b.article_id');
 		
 		$this->db->where_in('a.word', $keywords);
 		$this->db->group_by('article_id');
