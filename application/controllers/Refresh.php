@@ -8,7 +8,7 @@ class Refresh extends MY_Controller
 	
 		$this->data['META_TITLE'] = 'Cập nhật :: ' . $this->data['META_TITLE'];
 		
-		$this->load->model("Articles_model");
+		$this->load->model("articles_model");
 	}
 	
 	public function index()
@@ -18,27 +18,51 @@ class Refresh extends MY_Controller
 	
 	public function articles()
 	{
+		$this->load->model("crawl_model");
 		
+		$this->articles_model->EmptyTableArticle();
+
+		$current_page = 1;
+
+		while(true)
+		{
+			$controlPageUrl = "http://www.stdio.vn/articles/index/0/all/".$current_page;
+			$controlHtml = $this->crawl_model->getPage($controlPageUrl, "http", 30, "");
+			
+			$content = substr($controlHtml, strpos($controlHtml, 'BÀI VIẾT MỚI NHẤT'));
+
+			while(true)
+			{
+				$url = "http://www.stdio.vn".$this->crawl_model->getBetween($content, '<a href="', '">');
+				
+				if(strpos($url, "read") == FALSE)
+					break;
+
+				$article_id = $this->crawl_model->getBetween($url, 'http://www.stdio.vn/articles/read/', '/');
+				$articleHtml = $this->crawl_model->getPage($url, "http", 30, "");
+				$article_info = $this->crawl_model->getArticle($articleHtml);
+				
+				$article_brief = $this->crawl_model->getBetween($content, '<div class="article_brief">', '</div>');
+				$article_brief = trim($article_brief);
+										
+				$this->articles_model->insertArticle($article_id, 
+														$article_info["category_id"], 
+														$article_info["title"], 
+														$article_brief, 
+														$article_info["author_id"], 
+														$article_info["content"], 
+														$article_info["tags"], 
+														$article_info["friendly_url"]);
+				
+				$content = substr($content, strpos($content, '<div class="article_brief">', strlen('<div class="article_brief">')));
+			}
+			
+			if(strpos($controlHtml, '<i class="fa fa-angle-right fa-lg"></i></div><div class="button_disable">') != FALSE)
+				break;
+				
+			$current_page++;
+		}
 		
 		return redirect(SMART_SEARCH_HOME);
-	}
-	
-	function getPage($url, $referer, $timeout, $header)
-	{
-		if(!isset($timeout))
-			$timeout=30;
-		$curl = curl_init();
-		if(strstr($referer,"://")){
-			curl_setopt ($curl, CURLOPT_REFERER, $referer);
-		}
-		curl_setopt ($curl, CURLOPT_URL, $url);
-		curl_setopt ($curl, CURLOPT_TIMEOUT, $timeout);
-		curl_setopt ($curl, CURLOPT_USERAGENT, sprintf("Mozilla/%d.0",rand(4,5)));
-		//curl_setopt ($curl, CURLOPT_HEADER, (int)$header);
-		curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		$html = curl_exec ($curl);
-		curl_close ($curl);
-		return $html;
 	}
 }

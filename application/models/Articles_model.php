@@ -51,11 +51,24 @@ class Articles_model extends CI_Model
 	
 	function EmptyTableArticle()
 	{
-		
+		$this->db->truncate($this->tbl_articles);
 	}
 	
-	function InsertArticle($category_id, $title, $description, $author_id, $content, $tag, $friendly_url)
+	function InsertArticle($article_id, $category_id, $title, $description, $author_id, $content, $tags, $friendly_url)
 	{
+		$data = array(
+			"article_id" =>$article_id,
+			"category_id" => $category_id,
+			"description" => $description,
+			"title" => $title,
+			"author_id" => $author_id,
+			"content" => $content,
+			"tags" => $tags,
+			"friendly_url" => $friendly_url
+		);
 		
+		$this->db->insert($this->tbl_articles, $data);
+			
+		return $this->db->insert_id();
 	}
 }
