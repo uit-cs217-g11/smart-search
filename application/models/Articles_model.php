@@ -33,7 +33,6 @@ class Articles_model extends CI_Model
 							b.title as title,
 							b.description as description,
 							b.author_id as author_id,
-							b.content as content,
 							b.tags as tags,
 							b.friendly_url as friendly_url');
 		
@@ -45,6 +44,27 @@ class Articles_model extends CI_Model
 		$this->db->group_by('article_id');
 		$this->db->order_by('weight', 'desc');
 		
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
+	function SelectArticlesByArticleId($article_id)
+	{
+		if($article_id == NULL)
+			return FALSE;
+			
+		$this->db->select(' b.article_id as article_id,
+							b.category_id as category_id,
+							b.title as title,
+							b.description as description,
+							b.author_id as author_id,
+							b.content as content,
+							b.tags as tags,
+							b.friendly_url as friendly_url');
+		
+		$this->db->from($this->tbl_articles. ' as b');
+		$this->db->where_in('article_id', $article_id);
+
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -70,5 +90,28 @@ class Articles_model extends CI_Model
 		$this->db->insert($this->tbl_articles, $data);
 			
 		return $this->db->insert_id();
+	}
+	
+	function CountAllArticles()
+	{
+		$this->db->from($this->tbl_articles);
+		return $this->db->count_all_results();
+	}
+	
+	function SelectAllArticles()
+	{
+		$this->db->select(' b.article_id as article_id,
+							b.category_id as category_id,
+							b.title as title,
+							b.description as description,
+							b.author_id as author_id,
+							b.content as content,
+							b.tags as tags,
+							b.friendly_url as friendly_url');
+							
+		$this->db->from($this->tbl_articles . ' as b');
+		
+		$query = $this->db->get();
+		return $query->result();
 	}
 }

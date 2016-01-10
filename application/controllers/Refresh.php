@@ -65,4 +65,26 @@ class Refresh extends MY_Controller
 		
 		return redirect(SMART_SEARCH_HOME);
 	}
+	
+	public function load_articles()
+	{
+		$this->load->helper("file");
+		$articles = $this->articles_model->SelectAllArticles();
+		
+		foreach($articles as $item)
+		{
+			$data = $item->article_id.'-'.$item->friendly_url.PHP_EOL.$item->title.PHP_EOL.$item->tags.PHP_EOL.strip_tags($item->content);
+			
+			if (!write_file('raw_data/'.$item->article_id.'-'.$item->friendly_url.'.raw', $data, 'w'))
+			{
+				echo 'FALSE';
+			}
+			else
+			{
+				echo 'TRUE';
+			}
+		}
+		
+		return redirect(SMART_SEARCH_HOME);
+	}
 }
