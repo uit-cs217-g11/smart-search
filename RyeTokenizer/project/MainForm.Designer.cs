@@ -32,9 +32,10 @@
 			this.txtbox_indexed = new LollipopTextBox();
 			this.btn_tokenize = new LollipopButton();
 			this.txtbox_tokenized = new LollipopTextBox();
-			this.browse_folder = new LollipopFolderInPut();
+			this.browse_folder_raw = new LollipopFolderInPut();
 			this.txtbox_input = new LollipopTextBox();
 			this.label_rye = new LollipopLabel();
+			this.browse_folder_tokenized = new LollipopFolderInPut();
 			this.SuspendLayout();
 			// 
 			// btn_indexing
@@ -42,7 +43,7 @@
 			this.btn_indexing.BackColor = System.Drawing.Color.Transparent;
 			this.btn_indexing.BGColor = " #2196f3";
 			this.btn_indexing.FontColor = "#f5f5f5";
-			this.btn_indexing.Location = new System.Drawing.Point(622, 82);
+			this.btn_indexing.Location = new System.Drawing.Point(622, 52);
 			this.btn_indexing.Name = "btn_indexing";
 			this.btn_indexing.Size = new System.Drawing.Size(143, 41);
 			this.btn_indexing.TabIndex = 7;
@@ -70,7 +71,7 @@
 			this.btn_tokenize.BackColor = System.Drawing.Color.Transparent;
 			this.btn_tokenize.BGColor = " #2196f3";
 			this.btn_tokenize.FontColor = "#f5f5f5";
-			this.btn_tokenize.Location = new System.Drawing.Point(470, 82);
+			this.btn_tokenize.Location = new System.Drawing.Point(470, 52);
 			this.btn_tokenize.Name = "btn_tokenize";
 			this.btn_tokenize.Size = new System.Drawing.Size(143, 41);
 			this.btn_tokenize.TabIndex = 5;
@@ -93,21 +94,21 @@
 			this.txtbox_tokenized.UseSystemPasswordChar = false;
 			this.txtbox_tokenized.WordWrap = false;
 			// 
-			// browse_folder
+			// browse_folder_raw
 			// 
-			this.browse_folder.FocusedColor = " #2196f3";
-			this.browse_folder.FontColor = "#9e9e9e";
-			this.browse_folder.IsEnabled = true;
-			this.browse_folder.Location = new System.Drawing.Point(7, 99);
-			this.browse_folder.MaxLength = 32767;
-			this.browse_folder.Name = "browse_folder";
-			this.browse_folder.ReadOnly = true;
-			this.browse_folder.Size = new System.Drawing.Size(300, 24);
-			this.browse_folder.TabIndex = 2;
-			this.browse_folder.Text = "Please select folder";
-			this.browse_folder.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-			this.browse_folder.UseSystemPasswordChar = false;
-			this.browse_folder.TextChanged += new System.EventHandler(this.browse_folder_TextChanged);
+			this.browse_folder_raw.FocusedColor = " #2196f3";
+			this.browse_folder_raw.FontColor = "#9e9e9e";
+			this.browse_folder_raw.IsEnabled = true;
+			this.browse_folder_raw.Location = new System.Drawing.Point(7, 99);
+			this.browse_folder_raw.MaxLength = 32767;
+			this.browse_folder_raw.Name = "browse_folder_raw";
+			this.browse_folder_raw.ReadOnly = true;
+			this.browse_folder_raw.Size = new System.Drawing.Size(300, 24);
+			this.browse_folder_raw.TabIndex = 2;
+			this.browse_folder_raw.Text = "Please select folder";
+			this.browse_folder_raw.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+			this.browse_folder_raw.UseSystemPasswordChar = false;
+			this.browse_folder_raw.TextChanged += new System.EventHandler(this.browse_folder_raw_TextChanged);
 			// 
 			// txtbox_input
 			// 
@@ -137,17 +138,34 @@
 			this.label_rye.TabIndex = 0;
 			this.label_rye.Text = "Rye Tokenizer";
 			// 
+			// browse_folder_tokenized
+			// 
+			this.browse_folder_tokenized.FocusedColor = " #2196f3";
+			this.browse_folder_tokenized.FontColor = "#9e9e9e";
+			this.browse_folder_tokenized.IsEnabled = true;
+			this.browse_folder_tokenized.Location = new System.Drawing.Point(313, 99);
+			this.browse_folder_tokenized.MaxLength = 32767;
+			this.browse_folder_tokenized.Name = "browse_folder_tokenized";
+			this.browse_folder_tokenized.ReadOnly = true;
+			this.browse_folder_tokenized.Size = new System.Drawing.Size(300, 24);
+			this.browse_folder_tokenized.TabIndex = 8;
+			this.browse_folder_tokenized.Text = "Please select folder";
+			this.browse_folder_tokenized.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+			this.browse_folder_tokenized.UseSystemPasswordChar = false;
+			this.browse_folder_tokenized.TextChanged += new System.EventHandler(this.browse_folder_tokenized_TextChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(934, 451);
+			this.Controls.Add(this.browse_folder_tokenized);
 			this.Controls.Add(this.btn_indexing);
 			this.Controls.Add(this.txtbox_indexed);
 			this.Controls.Add(this.btn_tokenize);
 			this.Controls.Add(this.txtbox_tokenized);
-			this.Controls.Add(this.browse_folder);
+			this.Controls.Add(this.browse_folder_raw);
 			this.Controls.Add(this.txtbox_input);
 			this.Controls.Add(this.label_rye);
 			this.Name = "MainForm";
@@ -164,11 +182,12 @@
 
 		private LollipopLabel label_rye;
 		private LollipopTextBox txtbox_input;
-		private LollipopFolderInPut browse_folder;
+		private LollipopFolderInPut browse_folder_raw;
 		private LollipopTextBox txtbox_tokenized;
 		private LollipopButton btn_tokenize;
 		private LollipopTextBox txtbox_indexed;
 		private LollipopButton btn_indexing;
+		private LollipopFolderInPut browse_folder_tokenized;
 	}
 }
 

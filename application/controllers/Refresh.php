@@ -73,7 +73,7 @@ class Refresh extends MY_Controller
 		
 		foreach($articles as $item)
 		{
-			$data = $item->article_id.'-'.$item->friendly_url.PHP_EOL.$item->title.PHP_EOL.$item->tags.PHP_EOL.strip_tags($item->content);
+			$data = $item->article_id.PHP_EOL.$item->friendly_url.PHP_EOL.$item->title.PHP_EOL.$item->tags.PHP_EOL.strip_tags($item->content);
 			
 			if (!write_file('raw_data/'.$item->article_id.'-'.$item->friendly_url.'.raw', $data, 'w'))
 			{

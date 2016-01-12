@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LollipopUI
@@ -91,39 +92,119 @@ namespace LollipopUI
 
 	public class Tokenizer
 	{
-		public string m_title;
-		public string m_tags;
-
-		public string m_content;
-
-		public Tokenizer(string title, string tags, string content)
+		public ArrayList Tokenizing(string content)
 		{
-			m_title = title;
-			m_tags = tags;
+			content = content.Replace("\n", " ");
+			content = content.Replace("\t", " ");
+			content = content.Replace("&nbsp;", " ");
+
+			ArrayList _wordsTokenized = new ArrayList();
+
+			string newContent = Regex.Replace(content, @"[^A-Za-z0-9]+", "");
+
+			string[] abcdef = newContent.Split(' ');
+
+
+
+			while (content != "")
+			{
+				for(int i = 4; i >= 1; i--)
+				{
+					//string _rawWord = Regex.Match(content, @"^(\w+\b.*?){" + i + "}").ToString();
+					string _rawWord = string.Join(" ", content.Split().Take(i));
+
+					string _word = null;
+					if (i != 1)
+						_word = new string(_rawWord.Where(c => char.IsLetterOrDigit(c) || char.IsWhiteSpace(c) || c == '-').ToArray());
+					else
+					{
+						_word = _rawWord;
+					}
+
+					_word = _word.ToLower();
+
+					if (Dictionary.IsInDictionary(_word))
+					{
+						_wordsTokenized.Add(_word);
+						content = content.Replace(_rawWord + " ", String.Empty);
+						break;
+					}
+					else if(i == 1)
+					{
+						content = content.Replace(_rawWord + " ", String.Empty);
+					}
+				}
+			}
+
+
+
+			return _wordsTokenized;
+		}
+	}
+
+	public class Word
+	{
+		public string m_content;
+		public float m_weight;
+
+		public Word(string content, float weight)
+		{
 			m_content = content;
+			m_weight = weight;
 		}
 
-		public string Tokenizing(string content)
+		public static string Join(string delimiter, ArrayList listWords)
 		{
-			return null;
+			string _result = "";
+
+			foreach(Word _word in listWords)
+			{
+				_result += _word.m_content + '|' + _word.m_weight + Environment.NewLine;
+			}
+
+			return _result;
 		}
 	}
 
 	public class Indexer
 	{
-		public string m_title;
-		public string m_tags;
-
-		public string[] m_words;
-
-		public Indexer(string title, string tags, string content)
+		public ArrayList Indexing(string title, string tags, ArrayList words)
 		{
+			ArrayList _wordsIndexed = new ArrayList();
+			Tokenizer _tokenizer = new Tokenizer();
 
-		}
+			string[] _wordsInTitle = (_tokenizer.Tokenizing(title).ToArray(typeof(string)) as string[]).Distinct().ToArray();
+			foreach (string _word in _wordsInTitle)
+			{
+				_wordsIndexed.Add(new Word(_word, 1));
+			}
 
-		public string Indexing()
-		{
-			return null;
+
+
+			string[] _wordsInTags = tags.Split('|');
+			foreach(string _word in _wordsInTags)
+			{
+				if (!_wordsIndexed.Contains(_word))
+					_wordsIndexed.Add(new Word(_word, 1));
+			}
+
+
+
+			int _wordsCount = words.Count;
+			Dictionary<string, int> _distinctWordsCounting = (words.ToArray(typeof(string)) as string[]).GroupBy(x => x)
+									  .ToDictionary(g => g.Key,
+													g => g.Count());
+			
+			foreach (KeyValuePair<string, int> _word in _distinctWordsCounting)
+			{
+				if (!_wordsIndexed.Contains(_word.Key))
+				{
+					float _termFrequency = (float)_word.Value / _wordsCount;
+					_wordsIndexed.Add(new Word(_word.Key, _termFrequency));
+				}
+			}
+
+			return _wordsIndexed;
 		}
 	}
 }
