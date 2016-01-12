@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LollipopUI
 {
@@ -92,51 +93,96 @@ namespace LollipopUI
 
 	public class Tokenizer
 	{
-		public ArrayList Tokenizing(string content)
+		private string FormatString(string content, bool toLower = true)
 		{
+			content = content.Replace("&nbsp;", " ");
+			content = content.Replace("&gt", " ");
+			content = content.Replace("&lt", " ");
+
 			content = content.Replace("\n", " ");
 			content = content.Replace("\t", " ");
-			content = content.Replace("&nbsp;", " ");
 
+			content = content.Replace(". ", " ");
+			content = content.Replace(",", " ");
+			content = content.Replace(";", " ");
+			content = content.Replace("!", " ");
+
+			content = content.Replace(":", " ");
+			content = content.Replace("?", " ");
+			content = content.Replace("\"", " ");
+			content = content.Replace("”", " ");
+
+			content = content.Replace("/", " ");
+			content = content.Replace("\\", " ");
+			content = content.Replace("(", " ");
+			content = content.Replace(")", " ");
+
+			content = content.Replace("[", " ");
+			content = content.Replace("]", " ");
+			content = content.Replace("{;", " ");
+			content = content.Replace("}", " ");
+
+			content = content.Replace("-", " ");
+			content = content.Replace("…", " ");
+			content = content.Replace("..", " ");
+
+			content = Regex.Replace(content, @"\s+", " ");
+			content = content.Trim();
+
+			return content.ToLower();
+		}
+
+		public ArrayList Tokenizing(string content, bool retrieveWordsNotTokenized = false, string outputPathForRetrieving = null)
+		{
+			content = FormatString(content);
 			ArrayList _wordsTokenized = new ArrayList();
+			ArrayList _wordsNotTokenized = new ArrayList();
 
-			string newContent = Regex.Replace(content, @"[^A-Za-z0-9]+", "");
+			ArrayList _wordsSplited = new ArrayList();
+			_wordsSplited.AddRange(content.Split(' '));
 
-			string[] abcdef = newContent.Split(' ');
-
-
-
-			while (content != "")
+			while (_wordsSplited.Count > 0)
 			{
 				for(int i = 4; i >= 1; i--)
 				{
-					//string _rawWord = Regex.Match(content, @"^(\w+\b.*?){" + i + "}").ToString();
-					string _rawWord = string.Join(" ", content.Split().Take(i));
-
-					string _word = null;
-					if (i != 1)
-						_word = new string(_rawWord.Where(c => char.IsLetterOrDigit(c) || char.IsWhiteSpace(c) || c == '-').ToArray());
-					else
-					{
-						_word = _rawWord;
-					}
-
-					_word = _word.ToLower();
+					string _word = string.Join(" ", (_wordsSplited.ToArray(typeof(string)) as string[]).Take(i));
 
 					if (Dictionary.IsInDictionary(_word))
 					{
 						_wordsTokenized.Add(_word);
-						content = content.Replace(_rawWord + " ", String.Empty);
+						_wordsSplited.RemoveRange(0, i);
 						break;
 					}
 					else if(i == 1)
 					{
-						content = content.Replace(_rawWord + " ", String.Empty);
+						_wordsNotTokenized.Add(_word);
+						_wordsSplited.RemoveRange(0, i);
 					}
 				}
 			}
 
+			if(retrieveWordsNotTokenized == true)
+			{
+				try
+				{
+					var _writetream = new System.IO.FileStream(outputPathForRetrieving,
+										  System.IO.FileMode.Create,
+										  System.IO.FileAccess.Write,
+										  System.IO.FileShare.ReadWrite);
+					var _writer = new System.IO.StreamWriter(_writetream, System.Text.Encoding.UTF8, 128);
 
+
+					_writer.Write(string.Join(Environment.NewLine, (_wordsNotTokenized.ToArray(typeof(string)) as string[]).Distinct().ToArray()));
+					
+					_writer.Dispose();
+					_writetream.Dispose();
+				}
+				catch
+				{
+					MessageBox.Show("Could not retrieve untokenized words. The output path is invalid. Aborting...");
+				}
+			}
+			
 
 			return _wordsTokenized;
 		}

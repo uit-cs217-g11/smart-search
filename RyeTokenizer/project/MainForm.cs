@@ -28,7 +28,7 @@ STDIO&nbsp;là hệ thống         ";
 			temp = temp.Trim();
 			temp = temp.ToLower();
 			temp = temp.Replace("&nbsp;", " ");
-
+			
 			int x = 0;
 
 		}
@@ -90,13 +90,13 @@ STDIO&nbsp;là hệ thống         ";
 						string _title = _reader.ReadLine();
 						string _tags = _reader.ReadLine();
 						string _content = _reader.ReadToEnd();
-						
-						Tokenizer _tokenizer = new Tokenizer();
-						ArrayList _result = _tokenizer.Tokenizing(_content);
 
 						_reader.Dispose();
 						_readStream.Dispose();
 
+
+						Tokenizer _tokenizer = new Tokenizer();
+						ArrayList _result = _tokenizer.Tokenizing(_content, true, _outputDirectory + "\\" + _id + '-' + _friendly_url + ".not");
 
 
 						string _outputPath = _outputDirectory + "\\" + _id + '-' + _friendly_url + ".tok";
@@ -106,7 +106,8 @@ STDIO&nbsp;là hệ thống         ";
 										  System.IO.FileShare.ReadWrite);
 						var _writer = new System.IO.StreamWriter(_writetream, System.Text.Encoding.UTF8, 128);
 						_writer.Write(_id + Environment.NewLine + _friendly_url + Environment.NewLine +
-										_title + Environment.NewLine + _tags + Environment.NewLine + string.Join("\n", _result));
+										_title + Environment.NewLine + _tags + Environment.NewLine + 
+										string.Join(Environment.NewLine, _result.ToArray(typeof(string)) as string[]));
 
 						_writer.Dispose();
 						_writetream.Dispose();
@@ -167,12 +168,12 @@ STDIO&nbsp;là hệ thống         ";
 							_wordsTokenized.Add(_wordToken);
 						}
 
-						Indexer _indexer = new Indexer();
-						ArrayList _result = _indexer.Indexing(_title, _tags, _wordsTokenized);
-
 						_reader.Dispose();
 						_readStream.Dispose();
 
+
+						Indexer _indexer = new Indexer();
+						ArrayList _result = _indexer.Indexing(_title, _tags, _wordsTokenized);
 
 
 						string _outputPath = _outputDirectory + "\\" + _id + '-' + _friendly_url + ".ind";
