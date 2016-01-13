@@ -17,7 +17,9 @@ namespace LollipopUI
 		public static ArrayList m_words3 = new ArrayList();
 		public static ArrayList m_words4 = new ArrayList();
 
-		public static void LoadWordList(string path)
+		public static ArrayList m_stopWords = new ArrayList();
+
+		public static void LoadWordsList(string path)
 		{
 			var _filestream = new System.IO.FileStream(path,
 										  System.IO.FileMode.Open,
@@ -52,6 +54,85 @@ namespace LollipopUI
 
 			_file.Dispose();
 			_filestream.Dispose();
+		}
+
+		public static void LoadStopWords(string path)
+		{
+			var _filestream = new System.IO.FileStream(path,
+										  System.IO.FileMode.Open,
+										  System.IO.FileAccess.Read,
+										  System.IO.FileShare.ReadWrite);
+			var _file = new System.IO.StreamReader(_filestream, System.Text.Encoding.UTF8, true, 128);
+
+			string _word = null;
+			while ((_word = _file.ReadLine()) != null)
+			{
+				m_stopWords.Add(_word);
+
+				int _countSyllable = CountSyllable(_word);
+
+				switch (_countSyllable)
+				{
+					case 1:
+						m_words1.Remove(_word);
+						break;
+					case 2:
+						m_words2.Remove(_word);
+						break;
+					case 3:
+						m_words3.Remove(_word);
+						break;
+					case 4:
+						m_words4.Remove(_word);
+						break;
+					default:
+						m_words4.Remove(_word);
+						break;
+				}
+			}
+
+			_file.Dispose();
+			_filestream.Dispose();
+		}
+
+		public static void Sync(string path, string newPath)
+		{
+			var _readStream = new System.IO.FileStream(path,
+										  System.IO.FileMode.Open,
+										  System.IO.FileAccess.Read,
+										  System.IO.FileShare.ReadWrite);
+			var _reader = new System.IO.StreamReader(_readStream, System.Text.Encoding.UTF8, true, 128);
+
+			ArrayList _wordList = new ArrayList();
+
+			string _word = null;
+			while ((_word = _reader.ReadLine()) != null)
+			{
+				_wordList.Add(_word);
+			}
+
+			_reader.Dispose();
+			_readStream.Dispose();
+
+
+			Dictionary<string, int> _distinctWordsCounting = (_wordList.ToArray(typeof(string)) as string[]).GroupBy(x => x)
+									  .ToDictionary(g => g.Key,
+													g => g.Count());
+
+
+			var _writeStream = new System.IO.FileStream(newPath,
+										  System.IO.FileMode.Create,
+										  System.IO.FileAccess.Write,
+										  System.IO.FileShare.ReadWrite);
+			var _writer = new System.IO.StreamWriter(_writeStream, System.Text.Encoding.UTF8, 128);
+
+			foreach (KeyValuePair<string, int> _distinctWord in _distinctWordsCounting)
+			{
+				_writer.WriteLine(_distinctWord.Key);
+			}
+
+			_writer.Dispose();
+			_writeStream.Dispose();
 		}
 
 		public static int CountSyllable(string word)
@@ -100,6 +181,7 @@ namespace LollipopUI
 			content = content.Replace("&lt", " ");
 
 			content = content.Replace("\n", " ");
+			content = content.Replace("\r", " ");
 			content = content.Replace("\t", " ");
 
 			content = content.Replace(". ", " ");
@@ -150,7 +232,7 @@ namespace LollipopUI
 					if (Dictionary.IsInDictionary(_word))
 					{
 						_wordsTokenized.Add(_word);
-						_wordsSplited.RemoveRange(0, i);
+						_wordsSplited.RemoveRange(0, (_wordsSplited.Count < i) ? _wordsSplited.Count : i);
 						break;
 					}
 					else if(i == 1)
@@ -182,7 +264,6 @@ namespace LollipopUI
 					MessageBox.Show("Could not retrieve untokenized words. The output path is invalid. Aborting...");
 				}
 			}
-			
 
 			return _wordsTokenized;
 		}

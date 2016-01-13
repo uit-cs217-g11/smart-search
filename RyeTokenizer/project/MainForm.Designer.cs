@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+			this.btn_quick_tokenizing = new LollipopFlatButton();
+			this.btn_quick_indexing = new LollipopFlatButton();
+			this.browse_folder_tokenized = new LollipopFolderInPut();
 			this.btn_indexing = new LollipopButton();
 			this.txtbox_indexed = new LollipopTextBox();
 			this.btn_tokenize = new LollipopButton();
@@ -35,8 +38,45 @@
 			this.browse_folder_raw = new LollipopFolderInPut();
 			this.txtbox_input = new LollipopTextBox();
 			this.label_rye = new LollipopLabel();
-			this.browse_folder_tokenized = new LollipopFolderInPut();
 			this.SuspendLayout();
+			// 
+			// btn_quick_tokenizing
+			// 
+			this.btn_quick_tokenizing.BackColor = System.Drawing.Color.Transparent;
+			this.btn_quick_tokenizing.FontColor = "#508ef5";
+			this.btn_quick_tokenizing.Location = new System.Drawing.Point(321, 52);
+			this.btn_quick_tokenizing.Name = "btn_quick_tokenizing";
+			this.btn_quick_tokenizing.Size = new System.Drawing.Size(143, 41);
+			this.btn_quick_tokenizing.TabIndex = 11;
+			this.btn_quick_tokenizing.Text = "Quick Tokenizing";
+			this.btn_quick_tokenizing.Click += new System.EventHandler(this.btn_quick_tokenizing_Click);
+			// 
+			// btn_quick_indexing
+			// 
+			this.btn_quick_indexing.BackColor = System.Drawing.Color.Transparent;
+			this.btn_quick_indexing.FontColor = "#508ef5";
+			this.btn_quick_indexing.Location = new System.Drawing.Point(771, 52);
+			this.btn_quick_indexing.Name = "btn_quick_indexing";
+			this.btn_quick_indexing.Size = new System.Drawing.Size(143, 41);
+			this.btn_quick_indexing.TabIndex = 10;
+			this.btn_quick_indexing.Text = "Quick Indexing";
+			this.btn_quick_indexing.Click += new System.EventHandler(this.btn_quick_indexing_Click);
+			// 
+			// browse_folder_tokenized
+			// 
+			this.browse_folder_tokenized.FocusedColor = " #2196f3";
+			this.browse_folder_tokenized.FontColor = "#9e9e9e";
+			this.browse_folder_tokenized.IsEnabled = true;
+			this.browse_folder_tokenized.Location = new System.Drawing.Point(313, 99);
+			this.browse_folder_tokenized.MaxLength = 32767;
+			this.browse_folder_tokenized.Name = "browse_folder_tokenized";
+			this.browse_folder_tokenized.ReadOnly = true;
+			this.browse_folder_tokenized.Size = new System.Drawing.Size(300, 24);
+			this.browse_folder_tokenized.TabIndex = 8;
+			this.browse_folder_tokenized.Text = "Please select folder";
+			this.browse_folder_tokenized.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+			this.browse_folder_tokenized.UseSystemPasswordChar = false;
+			this.browse_folder_tokenized.TextChanged += new System.EventHandler(this.browse_folder_tokenized_TextChanged);
 			// 
 			// btn_indexing
 			// 
@@ -138,28 +178,14 @@
 			this.label_rye.TabIndex = 0;
 			this.label_rye.Text = "Rye Tokenizer";
 			// 
-			// browse_folder_tokenized
-			// 
-			this.browse_folder_tokenized.FocusedColor = " #2196f3";
-			this.browse_folder_tokenized.FontColor = "#9e9e9e";
-			this.browse_folder_tokenized.IsEnabled = true;
-			this.browse_folder_tokenized.Location = new System.Drawing.Point(313, 99);
-			this.browse_folder_tokenized.MaxLength = 32767;
-			this.browse_folder_tokenized.Name = "browse_folder_tokenized";
-			this.browse_folder_tokenized.ReadOnly = true;
-			this.browse_folder_tokenized.Size = new System.Drawing.Size(300, 24);
-			this.browse_folder_tokenized.TabIndex = 8;
-			this.browse_folder_tokenized.Text = "Please select folder";
-			this.browse_folder_tokenized.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-			this.browse_folder_tokenized.UseSystemPasswordChar = false;
-			this.browse_folder_tokenized.TextChanged += new System.EventHandler(this.browse_folder_tokenized_TextChanged);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(934, 451);
+			this.Controls.Add(this.btn_quick_tokenizing);
+			this.Controls.Add(this.btn_quick_indexing);
 			this.Controls.Add(this.browse_folder_tokenized);
 			this.Controls.Add(this.btn_indexing);
 			this.Controls.Add(this.txtbox_indexed);
@@ -188,6 +214,8 @@
 		private LollipopTextBox txtbox_indexed;
 		private LollipopButton btn_indexing;
 		private LollipopFolderInPut browse_folder_tokenized;
+		private LollipopFlatButton btn_quick_indexing;
+		private LollipopFlatButton btn_quick_tokenizing;
 	}
 }
 

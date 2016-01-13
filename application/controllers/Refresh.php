@@ -16,19 +16,35 @@ class Refresh extends MY_Controller
 		return redirect(SMART_SEARCH_HOME);
 	}
 	
-	public function articles()
+	public function articles($limited = 0)
 	{
 		$this->load->model("crawl_model");
 		
 		$this->articles_model->EmptyTableArticle();
 
 		$current_page = 1;
+		$controlHtmls = array();
 
 		while(true)
 		{
 			$controlPageUrl = "http://www.stdio.vn/articles/index/0/all/".$current_page;
-			$controlHtml = $this->crawl_model->getPage($controlPageUrl, "http", 30, "");
-			
+			$html = $this->crawl_model->getPage($controlPageUrl, "http", 30, "");
+			$controlHtmls[] = $html;
+
+			if(strpos($html, '<i class="fa fa-angle-right fa-lg"></i></div><div class="button_disable">') != FALSE)
+				break;
+				
+			if($limited != NULL)
+			{
+				if($current_page == $limited)
+					break;
+			}
+				
+			$current_page++;
+		}
+		
+		foreach($controlHtmls as $controlHtml)
+		{
 			$content = substr($controlHtml, strpos($controlHtml, 'BÀI VIẾT MỚI NHẤT'));
 
 			while(true)
@@ -56,11 +72,6 @@ class Refresh extends MY_Controller
 				
 				$content = substr($content, strpos($content, '<div class="article_brief">', strlen('<div class="article_brief">')));
 			}
-			
-			if(strpos($controlHtml, '<i class="fa fa-angle-right fa-lg"></i></div><div class="button_disable">') != FALSE)
-				break;
-				
-			$current_page++;
 		}
 		
 		return redirect(SMART_SEARCH_HOME);
@@ -83,6 +94,76 @@ class Refresh extends MY_Controller
 			{
 				echo 'TRUE';
 			}
+		}
+		
+		return redirect(SMART_SEARCH_HOME);
+	}
+	
+	public function keywords()
+	{
+		$this->load->helper('file');
+		$this->load->model('keywords_model');
+		
+		$this->keywords_model->EmptyTableKeywords();
+
+		$indexed_directory = "indexed/";
+		$separator = DIRECTORY_SEPARATOR;
+		$paths = 'relative';
+		
+		$indexed_articles = array();
+    	$cdir = scandir($indexed_directory);
+		
+		foreach ($cdir as $key => $value)
+		{
+			if (!in_array($value, array(".", "..")))
+			{
+				if (is_dir($indexed_directory . $separator . $value))
+				{
+					$indexed_articles[$value] = $this->dir_to_array($indexed_directory . $separator . $value, $separator, $paths);
+				}
+				else
+				{
+					if ($paths == 'relative')
+					{
+						$indexed_articles[] = $indexed_directory . '/' . $value;                    
+					}
+					elseif ($paths == 'absolute')
+					{
+						$indexed_articles[] = base_url() . $indexed_directory . '/' . $value;
+					}
+				}
+			}
+		}
+		
+		foreach($indexed_articles as $indexed_article)
+		{
+			$content = read_file($indexed_article);
+
+			$article_id = strtok($content, PHP_EOL);
+			$article_id = intval(preg_replace('/[^0-9]/s', '', $article_id));
+
+			$content = preg_replace("/^(.*\n){4}/", "", $content);
+
+			$keywords_map = explode(PHP_EOL, $content);
+			array_pop($keywords_map);
+			
+			$keywords = array();
+			
+			foreach($keywords_map as $keyword)
+			{
+				$word = explode('|', $keyword);
+				$data = array(
+						"word"			=> $word[0],
+						"weight"		=> $word[1],
+						"tf"			=> $word[1],
+						"idf"			=> 0,
+						"article_id"	=> $article_id
+				);
+
+				array_push($keywords, $data);
+			}
+
+			$this->keywords_model->InsertKeywords($keywords);
 		}
 		
 		return redirect(SMART_SEARCH_HOME);

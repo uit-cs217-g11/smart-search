@@ -19,40 +19,12 @@ namespace LollipopUI
         {
             InitializeComponent();
 
-			Dictionary.LoadWordList("wordlist.txt");
+			//Dictionary.Sync("vietnamese-stopwords.txt", "vietnamese-stopwords.txt");
 
-			string temp = @"            Nếu bạn, đang !mong     muốn tiếp cận và tìm hiểu về các bài viết trên STDIO&nbsp;thì những thông tin sau đây có thể giúp bạn.
+			Dictionary.LoadWordsList("Viet74K.txt");
+			Dictionary.LoadWordsList("TechicalWordsLibrary.txt");
 
-STDIO&nbsp;là hệ thống         ";
-
-			temp = temp.Trim();
-			temp = temp.ToLower();
-			temp = temp.Replace("&nbsp;", " ");
-			
-			int x = 0;
-
-		}
-
-		private void browse_folder_raw_TextChanged(object sender, EventArgs e)
-		{
-			string directory = browse_folder_raw.Text;
-
-			try
-			{
-				DirectoryInfo _directInfo = new DirectoryInfo(directory);
-				FileInfo[] files = _directInfo.GetFiles();
-
-				txtbox_input.Text = "";
-
-				foreach (FileInfo file in files)
-				{
-					txtbox_input.Text += file.FullName + Environment.NewLine;
-				}
-			}
-			catch
-			{
-				MessageBox.Show("Invalid folder. Please select a folder for tokenizing!!!");
-			}
+			Dictionary.LoadStopWords("vietnamese-stopwords.txt");
 		}
 
 		private void btn_tokenize_Click(object sender, EventArgs e)
@@ -74,7 +46,15 @@ STDIO&nbsp;là hệ thống         ";
 
 			try
 			{
-				foreach(string _line in _lines)
+				FolderBrowserDialog _dialog2 = new FolderBrowserDialog();
+				string _output2Directory = null;
+
+				if (_dialog2.ShowDialog() != DialogResult.OK)
+					return;
+
+				_output2Directory = _dialog2.SelectedPath.Replace("\r", String.Empty);
+
+				foreach (string _line in _lines)
 				{
 					try
 					{
@@ -96,7 +76,7 @@ STDIO&nbsp;là hệ thống         ";
 
 
 						Tokenizer _tokenizer = new Tokenizer();
-						ArrayList _result = _tokenizer.Tokenizing(_content, true, _outputDirectory + "\\" + _id + '-' + _friendly_url + ".not");
+						ArrayList _result = _tokenizer.Tokenizing(_content, true, _output2Directory + "\\" + _id + '-' + _friendly_url + ".not");
 
 
 						string _outputPath = _outputDirectory + "\\" + _id + '-' + _friendly_url + ".tok";
@@ -207,6 +187,28 @@ STDIO&nbsp;là hệ thống         ";
 			}
 		}
 
+		private void browse_folder_raw_TextChanged(object sender, EventArgs e)
+		{
+			string directory = browse_folder_raw.Text;
+
+			try
+			{
+				DirectoryInfo _directInfo = new DirectoryInfo(directory);
+				FileInfo[] files = _directInfo.GetFiles();
+
+				txtbox_input.Text = "";
+
+				foreach (FileInfo file in files)
+				{
+					txtbox_input.Text += file.FullName + Environment.NewLine;
+				}
+			}
+			catch
+			{
+				MessageBox.Show("Invalid folder. Please select a folder for tokenizing!!!");
+			}
+		}
+
 		private void browse_folder_tokenized_TextChanged(object sender, EventArgs e)
 		{
 			string directory = browse_folder_tokenized.Text;
@@ -227,6 +229,16 @@ STDIO&nbsp;là hệ thống         ";
 			{
 				MessageBox.Show("Invalid folder. Please select a folder for indexing!!!");
 			}
+		}
+
+		private void btn_quick_tokenizing_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void btn_quick_indexing_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
