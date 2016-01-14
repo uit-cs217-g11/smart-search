@@ -6,8 +6,7 @@
 		
 		<div class="wrapper_content_column_2">
 			<div class="wrapper_content_column_2_element">
-				<input type="text" id="id_search_str" placeholder="Tìm bài viết" onkeydown="ajax_search_article(event)"/>
-				<div class="button_wide" onclick="ajax_search_article()">SEARCH</div>
+				<?php $this->load->view('shared/include/control_search_articles')?>
 			</div>
 			
 			<div class="title_base title_color_darkorange"><span>TÌM KIẾM <?=htmlspecialchars($keywords)?></span></div>

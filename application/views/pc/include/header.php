@@ -28,6 +28,8 @@
 <meta property="og:site_name" content="<?=$META_SITENAME?>" />
 <meta property="og:description" content="<?=$META_DESC?>" />
 
+<link rel="stylesheet" href="<?=URL_HOME?>/statics/external_data/font-awesome-4.5.0/css/font-awesome.min.css">
+
 <link rel="stylesheet" type="text/css" href="<?=URL_HOME?>/statics/external_data/css_constructor.css"/>
 <link rel="stylesheet" type="text/css" href="<?=URL_HOME?>/statics/pc/css_styles.css"/>
 

@@ -14,7 +14,7 @@ class Articles extends MY_Controller
 	public function index()
 	{	
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
-		//$this->load->view($this->data['PATH_VIEW'].'/articles/index', $this->data);
+		$this->load->view($this->data['PATH_VIEW'].'/articles/index', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
 	}
 	

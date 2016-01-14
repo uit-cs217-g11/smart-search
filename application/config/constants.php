@@ -91,6 +91,7 @@ define('DEFAULT_CRAWL_URL',	'http://www.stdio.vn/articles/read/');
 define('SAVE_PATH', 		'crawl_data/');
 
 define('AJAX_DELIMITER', 		'~~~');
+define('CHAR_SPACE',			' ');
 
 // DEVICE DEFINITION
 define('DEVICE_UNKNOWN',	0);

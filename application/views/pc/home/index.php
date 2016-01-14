@@ -7,12 +7,11 @@
 		<div class="wrapper_content_column_2">
 			<div class="wrapper_content_column_2_element">
 				<div class="title">Smart Search</div>
-				
-				<input type="text" id="id_search_str" placeholder="Tìm bài viết" onkeydown="ajax_search_article(event)"/>
-				<div class="button_wide" onclick="ajax_search_article()">SEARCH</div>
 			</div>
-
 			
+			<div class="wrapper_content_column_2_element">
+				<?php $this->load->view('shared/include/control_search_articles')?>
+			</div>
 		</div>
 		
 		<div class="wrapper_content_column_3">
