@@ -9,7 +9,7 @@
 				<?php $this->load->view('shared/include/control_search_articles')?>
 			</div>
 			
-			<div class="wrapper_content_column_2_element">
+			<!--<div class="wrapper_content_column_2_element">
 				<div class="articles_concerned_categories">
 					<a href="/articles/index/0/1" <?=$CURRENT_CATEGORY==0?'class="active"':''?>>Tất cả</a>
 					<? foreach ($CONCERNED_CATEGORY as $item) { ?>
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 
-			<!--<? if ($FEARTURE_ARTICLES != NULL) { ?>
+			<? if ($FEARTURE_ARTICLES != NULL) { ?>
 			<div class="wrapper_content_column_2_element">
 				<div class="articles_featured_articles background_color_light_grey">	
 					<h3><i class="fa fa-paperclip fa-fw"></i> BÀI VIẾT TIÊU BIỂU</h3>

@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-			this.btn_quick_tokenizing = new LollipopFlatButton();
-			this.btn_quick_indexing = new LollipopFlatButton();
+			this.components = new System.ComponentModel.Container();
+			this.timer = new System.Windows.Forms.Timer(this.components);
+			this.btn_canceled_indexing = new LollipopFlatButton();
+			this.btn_canceled_tokenize = new LollipopFlatButton();
+			this.progress_bar = new LollipopProgressBar();
 			this.browse_folder_tokenized = new LollipopFolderInPut();
 			this.btn_indexing = new LollipopButton();
 			this.txtbox_indexed = new LollipopTextBox();
@@ -40,27 +43,42 @@
 			this.label_rye = new LollipopLabel();
 			this.SuspendLayout();
 			// 
-			// btn_quick_tokenizing
+			// timer
 			// 
-			this.btn_quick_tokenizing.BackColor = System.Drawing.Color.Transparent;
-			this.btn_quick_tokenizing.FontColor = "#508ef5";
-			this.btn_quick_tokenizing.Location = new System.Drawing.Point(321, 52);
-			this.btn_quick_tokenizing.Name = "btn_quick_tokenizing";
-			this.btn_quick_tokenizing.Size = new System.Drawing.Size(143, 41);
-			this.btn_quick_tokenizing.TabIndex = 11;
-			this.btn_quick_tokenizing.Text = "Quick Tokenizing";
-			this.btn_quick_tokenizing.Click += new System.EventHandler(this.btn_quick_tokenizing_Click);
+			this.timer.Enabled = true;
+			this.timer.Tick += new System.EventHandler(this.timer_Tick);
 			// 
-			// btn_quick_indexing
+			// btn_canceled_indexing
 			// 
-			this.btn_quick_indexing.BackColor = System.Drawing.Color.Transparent;
-			this.btn_quick_indexing.FontColor = "#508ef5";
-			this.btn_quick_indexing.Location = new System.Drawing.Point(771, 52);
-			this.btn_quick_indexing.Name = "btn_quick_indexing";
-			this.btn_quick_indexing.Size = new System.Drawing.Size(143, 41);
-			this.btn_quick_indexing.TabIndex = 10;
-			this.btn_quick_indexing.Text = "Quick Indexing";
-			this.btn_quick_indexing.Click += new System.EventHandler(this.btn_quick_indexing_Click);
+			this.btn_canceled_indexing.BackColor = System.Drawing.Color.Transparent;
+			this.btn_canceled_indexing.FontColor = "#508ef5";
+			this.btn_canceled_indexing.Location = new System.Drawing.Point(771, 52);
+			this.btn_canceled_indexing.Name = "btn_canceled_indexing";
+			this.btn_canceled_indexing.Size = new System.Drawing.Size(90, 41);
+			this.btn_canceled_indexing.TabIndex = 14;
+			this.btn_canceled_indexing.Text = "Cancel";
+			this.btn_canceled_indexing.Click += new System.EventHandler(this.btn_canceled_indexing_Click);
+			// 
+			// btn_canceled_tokenize
+			// 
+			this.btn_canceled_tokenize.BackColor = System.Drawing.Color.Transparent;
+			this.btn_canceled_tokenize.FontColor = "#508ef5";
+			this.btn_canceled_tokenize.Location = new System.Drawing.Point(374, 52);
+			this.btn_canceled_tokenize.Name = "btn_canceled_tokenize";
+			this.btn_canceled_tokenize.Size = new System.Drawing.Size(90, 41);
+			this.btn_canceled_tokenize.TabIndex = 13;
+			this.btn_canceled_tokenize.Text = "Cancel";
+			this.btn_canceled_tokenize.Click += new System.EventHandler(this.btn_canceled_tokenize_Click);
+			// 
+			// progress_bar
+			// 
+			this.progress_bar.BGColor = "#508ef5";
+			this.progress_bar.Location = new System.Drawing.Point(7, 440);
+			this.progress_bar.Name = "progress_bar";
+			this.progress_bar.Size = new System.Drawing.Size(916, 10);
+			this.progress_bar.TabIndex = 12;
+			this.progress_bar.Text = "100%";
+			this.progress_bar.Value = 0;
 			// 
 			// browse_folder_tokenized
 			// 
@@ -183,9 +201,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(934, 451);
-			this.Controls.Add(this.btn_quick_tokenizing);
-			this.Controls.Add(this.btn_quick_indexing);
+			this.ClientSize = new System.Drawing.Size(934, 461);
+			this.Controls.Add(this.btn_canceled_indexing);
+			this.Controls.Add(this.btn_canceled_tokenize);
+			this.Controls.Add(this.progress_bar);
 			this.Controls.Add(this.browse_folder_tokenized);
 			this.Controls.Add(this.btn_indexing);
 			this.Controls.Add(this.txtbox_indexed);
@@ -194,9 +213,11 @@
 			this.Controls.Add(this.browse_folder_raw);
 			this.Controls.Add(this.txtbox_input);
 			this.Controls.Add(this.label_rye);
+			this.DoubleBuffered = true;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "TestForm";
+			this.Text = "Rye Tokenizer";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -214,8 +235,10 @@
 		private LollipopTextBox txtbox_indexed;
 		private LollipopButton btn_indexing;
 		private LollipopFolderInPut browse_folder_tokenized;
-		private LollipopFlatButton btn_quick_indexing;
-		private LollipopFlatButton btn_quick_tokenizing;
+		private System.Windows.Forms.Timer timer;
+		private LollipopProgressBar progress_bar;
+		private LollipopFlatButton btn_canceled_tokenize;
+		private LollipopFlatButton btn_canceled_indexing;
 	}
 }
 

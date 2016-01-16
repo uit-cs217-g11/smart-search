@@ -71,4 +71,57 @@ function Unicode2ASCII($str)
 	return $str;
 }
 
+function GetPaging($page_num, $page_count, $page_limit, $page_controller, $page_method, $type_id = -1, $friendly_url = CHAR_EMPTY)
+{
+	$type_id = (int)$type_id;
+	
+	$STR_PAGING = CHAR_EMPTY;
+	$STR_OPTIONAL_INFO = '/';
+
+	if ((gettype($type_id) == "integer" && $type_id >= 0) || (gettype($type_id) == "string" && !empty($type_id)))
+	{
+		$STR_OPTIONAL_INFO .= $type_id . '/';
+	}
+	
+	if (!empty($friendly_url))
+	{		
+		$STR_OPTIONAL_INFO .= $friendly_url . '/';
+	}
+	
+	
+	$totalPage = ceil($page_count / $page_limit);
+	
+	if ($page_num > 1)
+	{
+		$link1 = URL_HOME."/$page_controller/$page_method" . $STR_OPTIONAL_INFO . "1";
+		$link2 = URL_HOME."/$page_controller/$page_method" . $STR_OPTIONAL_INFO . ($page_num-1);
+		
+		$STR_PAGING .= '<a class="button" href="'.$link1.'"><i class="fa fa-angle-double-left fa-lg"></i></a>';
+		$STR_PAGING .= '<a class="button" href="'.$link2.'"><i class="fa fa-angle-left fa-lg"></i></a>';
+	}
+	else
+	{
+		$STR_PAGING .= '<div class="button_disable"><i class="fa fa-angle-double-left fa-lg"></i></div>';
+		$STR_PAGING .= '<div class="button_disable"><i class="fa fa-angle-left fa-lg"></i></div>';
+	}
+	
+	$STR_PAGING .= '<div class="button_disable">'.$page_num.'</div>';
+	
+	if ($page_num < $totalPage)
+	{
+		$link1 = URL_HOME."/$page_controller/$page_method" . $STR_OPTIONAL_INFO . ($page_num + 1);
+		$link2 = URL_HOME."/$page_controller/$page_method" . $STR_OPTIONAL_INFO . $totalPage;
+				
+		$STR_PAGING .= '<a class="button" href="'.$link1.'"><i class="fa fa-angle-right fa-lg"></i></a>';
+		$STR_PAGING .= '<a class="button" href="'.$link2.'"><i class="fa fa-angle-double-right fa-lg"></i></a>';
+	}
+	else
+	{
+		$STR_PAGING .= '<div class="button_disable"><i class="fa fa-angle-right fa-lg"></i></div>';
+		$STR_PAGING .= '<div class="button_disable"><i class="fa fa-angle-double-right fa-lg"></i></div>';
+	}
+	
+	return $STR_PAGING;
+}
+
 ?>

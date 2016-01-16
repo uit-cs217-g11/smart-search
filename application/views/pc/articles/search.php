@@ -13,16 +13,33 @@
 
 			<?php if (count($articles_brief) > 0) { ?>
 			<div class="wrapper_content_column_2_element">
-				 <?php foreach($articles_brief as $article) { ?>
-				 	<div><?=$article->article_id?></div>
-					<div><?=$article->title?></div>
-					<div><?=$article->description?></div>
-					</br>
-				<?php } ?>
+				<div class="table">
+					<?php foreach($articles_brief as $article) { ?>
+						<div class="row">
+							<div class="article_title">
+								<a href="<?=URL_HOME?>/articles/read/<?=$article->article_id.'/'.$article->friendly_url?>">
+									<?=$article->title?>
+								</a>
+							</div>
+							
+							<div class="article_meta">
+								<a href="http://www.stdio.vn/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a>
+							</div>
+							
+							<div class="article_brief">
+								<?=$article->description?>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
 			</div>
 			<?php } else { ?>
 				<div>Không tìm được bài viết liên quan</div>
 			<?php } ?>
+			
+			<div class="wrapper_content_column_2_element">
+				<div class="paging"><?=$PAGINATION_STR?></div>
+			</div>
 		</div>
 		
 		<div class="wrapper_content_column_3">

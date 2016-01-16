@@ -170,6 +170,28 @@ namespace LollipopUI
 
 			return false;
 		}
+
+		public static bool IsInStopWordList(string word)
+		{
+			if (m_stopWords.Contains(word))
+				return true;
+
+			return false;
+		}
+
+		public static void AddWord(string path, string word)
+		{
+			var _writeStream = new System.IO.FileStream(path,
+										  System.IO.FileMode.Append,
+										  System.IO.FileAccess.Write,
+										  System.IO.FileShare.ReadWrite);
+			var _writer = new System.IO.StreamWriter(_writeStream, System.Text.Encoding.UTF8, 128);
+
+			_writer.WriteLine(word);
+
+			_writer.Dispose();
+			_writeStream.Dispose();
+		}
 	}
 
 	public class Tokenizer
@@ -247,14 +269,27 @@ namespace LollipopUI
 			{
 				try
 				{
+					int _wordsCount = _wordsNotTokenized.Count;
+					Dictionary<string, int> _distinctWordsCounting = (_wordsNotTokenized.ToArray(typeof(string)) as string[]).GroupBy(x => x)
+											  .ToDictionary(g => g.Key,
+															g => g.Count());
+
+					foreach (KeyValuePair<string, int> _word in _distinctWordsCounting)
+					{
+						if (!Dictionary.IsInStopWordList(_word.Key) && _word.Value > 5)
+						{
+							Dictionary.AddWord("TechicalWordsLibrary.txt", _word.Key);
+						}
+					}
+
 					var _writetream = new System.IO.FileStream(outputPathForRetrieving,
 										  System.IO.FileMode.Create,
 										  System.IO.FileAccess.Write,
 										  System.IO.FileShare.ReadWrite);
 					var _writer = new System.IO.StreamWriter(_writetream, System.Text.Encoding.UTF8, 128);
 
-
-					_writer.Write(string.Join(Environment.NewLine, (_wordsNotTokenized.ToArray(typeof(string)) as string[]).Distinct().ToArray()));
+					
+					_writer.Write(string.Join(Environment.NewLine, _distinctWordsCounting.Keys.ToArray()));
 					
 					_writer.Dispose();
 					_writetream.Dispose();
