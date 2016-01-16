@@ -26,20 +26,22 @@ class Articles extends MY_Controller
 		}
 		
 		$id = explode('-', $id)[0];
+
+		$article = $this->articles_model->SelectArticlesByArticleId($id);
 		
-		$this->data['Article'] = $this->articles_model->SelectArticlesByArticleId($id);
-		
-		/*if ($this->data['Article'])
+		if ($article !== FALSE)
 		{
-			$this->data['META_TITLE'] = $this->data['Article']->title . ' :: ' . $this->data['META_TITLE'];
-			$this->data['META_DESC'] = $this->data['Article']->description;
-			$this->data['META_URL'] = SMART_SEARCH_HOME.'/articles/read/'.$this->data['Article']->id.'/'.$this->data['Article']->friendly_url;
+			$this->data['META_TITLE'] = $article->title . ' :: ' . $this->data['META_TITLE'];
+			$this->data['META_DESC'] = $article->description;
+			$this->data['META_URL'] = SMART_SEARCH_HOME.'/articles/read/'.$article->article_id.'/'.$article->friendly_url;
 		
 		}
 		else
 		{
 			return redirect('/articles', 'refresh');
-		}*/
+		}
+		
+		$this->data['article'] = $article;
 
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/articles/read', $this->data);

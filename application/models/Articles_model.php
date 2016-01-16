@@ -71,19 +71,23 @@ class Articles_model extends CI_Model
 			return FALSE;
 			
 		$this->db->select(' b.article_id as article_id,
-							b.category_id as category_id,
 							b.title as title,
 							b.description as description,
 							b.author_id as author_id,
 							b.content as content,
 							b.tags as tags,
-							b.friendly_url as friendly_url');
+							b.friendly_url as friendly_url,
+							
+							c.id as category_id,
+							c.name as category_name,
+							c.friendly_url as category_friendly_url');
 		
 		$this->db->from($this->tbl_articles. ' as b');
-		$this->db->where_in('article_id', $article_id);
+		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
+		$this->db->where('article_id', $article_id);
 
 		$query = $this->db->get();
-		return $query->result();
+		return $query->row();
 	}
 	
 	function EmptyTableArticle()

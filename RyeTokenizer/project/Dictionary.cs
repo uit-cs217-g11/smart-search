@@ -207,9 +207,11 @@ namespace LollipopUI
 			content = content.Replace("\t", " ");
 
 			content = content.Replace(". ", " ");
+			content = content.Replace(" .", " ");
 			content = content.Replace(",", " ");
 			content = content.Replace(";", " ");
 			content = content.Replace("!", " ");
+			content = content.Replace("'", " ");
 
 			content = content.Replace(":", " ");
 			content = content.Replace("?", " ");
@@ -223,12 +225,18 @@ namespace LollipopUI
 
 			content = content.Replace("[", " ");
 			content = content.Replace("]", " ");
-			content = content.Replace("{;", " ");
+			content = content.Replace("{", " ");
 			content = content.Replace("}", " ");
 
 			content = content.Replace("-", " ");
 			content = content.Replace("…", " ");
 			content = content.Replace("..", " ");
+			content = content.Replace("•", " ");
+
+			content = content.Replace("+", " ");
+			content = content.Replace("*", " ");
+			content = content.Replace("/", " ");
+			content = content.Replace("=", " ");
 
 			content = Regex.Replace(content, @"\s+", " ");
 			content = content.Trim();
@@ -276,7 +284,7 @@ namespace LollipopUI
 
 					foreach (KeyValuePair<string, int> _word in _distinctWordsCounting)
 					{
-						if (!Dictionary.IsInStopWordList(_word.Key) && _word.Value > 5)
+						if (!Dictionary.IsInStopWordList(_word.Key) && _word.Value >= 40)
 						{
 							Dictionary.AddWord("TechicalWordsLibrary.txt", _word.Key);
 						}

@@ -82,6 +82,7 @@
 			// 
 			// browse_folder_tokenized
 			// 
+			this.browse_folder_tokenized.AccessibleDescription = "Open Tokenized folder";
 			this.browse_folder_tokenized.FocusedColor = " #2196f3";
 			this.browse_folder_tokenized.FontColor = "#9e9e9e";
 			this.browse_folder_tokenized.IsEnabled = true;
@@ -154,6 +155,7 @@
 			// 
 			// browse_folder_raw
 			// 
+			this.browse_folder_raw.AccessibleDescription = "Open RawData folder";
 			this.browse_folder_raw.FocusedColor = " #2196f3";
 			this.browse_folder_raw.FontColor = "#9e9e9e";
 			this.browse_folder_raw.IsEnabled = true;

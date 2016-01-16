@@ -31,7 +31,7 @@ namespace LollipopUI
         {
             InitializeComponent();
 
-			//Dictionary.Sync("vietnamese-stopwords.txt", "vietnamese-stopwords.txt");
+			//Dictionary.Sync("TechicalWordsLibrary.txt", "TechicalWordsLibrary.txt");
 
 			Dictionary.LoadWordsList("Viet74K.txt");
 			Dictionary.LoadWordsList("TechicalWordsLibrary.txt");
@@ -50,12 +50,14 @@ namespace LollipopUI
 			}
 
 			FolderBrowserDialog _dialog = new FolderBrowserDialog();
+			_dialog.Description = "Open Tokenize folder";
 			if (_dialog.ShowDialog() != DialogResult.OK)
 				return;
 
 			m_outputDirectory = _dialog.SelectedPath.Replace("\r", String.Empty);
 
 			FolderBrowserDialog _dialogUntokenized = new FolderBrowserDialog();
+			_dialogUntokenized.Description = "Open Untokenize folder";
 			if (_dialogUntokenized.ShowDialog() != DialogResult.OK)
 				return;
 
@@ -80,6 +82,7 @@ namespace LollipopUI
 			}
 
 			FolderBrowserDialog _dialog = new FolderBrowserDialog();
+			_dialog.Description = "Open Indexing folder";
 			if (_dialog.ShowDialog() != DialogResult.OK)
 				return;
 
@@ -120,27 +123,11 @@ namespace LollipopUI
 		private void btn_canceled_tokenize_Click(object sender, EventArgs e)
 		{
 			m_tokenizingWorker.CancelAsync();
-
-			btn_tokenize.Enabled = true;
-			btn_indexing.Enabled = true;
-			btn_canceled_indexing.Enabled = true;
-
-			browse_folder_raw.Enabled = true;
-			browse_folder_tokenized.Enabled = true;
-
-			Dictionary.Sync("TechicalWordsLibrary.txt", "TechicalWordsLibrary.txt");
 		}
 
 		private void btn_canceled_indexing_Click(object sender, EventArgs e)
 		{
 			m_indexingWorker.CancelAsync();
-
-			btn_tokenize.Enabled = true;
-			btn_indexing.Enabled = true;
-			btn_canceled_tokenize.Enabled = true;
-
-			browse_folder_raw.Enabled = true;
-			browse_folder_tokenized.Enabled = true;
 		}
 
 		private void SetupBackgroundWorker()
@@ -244,6 +231,13 @@ namespace LollipopUI
 				MessageBox.Show("Process is canceled. Possible losing data...");
 			else
 				MessageBox.Show("Tokenize completed. Please click button Indexing to index...");
+
+			btn_tokenize.Enabled = true;
+			btn_indexing.Enabled = true;
+			btn_canceled_indexing.Enabled = true;
+
+			browse_folder_raw.Enabled = true;
+			browse_folder_tokenized.Enabled = true;
 		}
 
 		private void m_tokenizingWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -322,6 +316,13 @@ namespace LollipopUI
 				MessageBox.Show("Process is canceled. Possible losing data...");
 			else
 				MessageBox.Show("Indexed data completed...");
+
+			btn_tokenize.Enabled = true;
+			btn_indexing.Enabled = true;
+			btn_canceled_tokenize.Enabled = true;
+
+			browse_folder_raw.Enabled = true;
+			browse_folder_tokenized.Enabled = true;
 		}
 
 		private void m_indexingWorker_DoWork(object sender, DoWorkEventArgs e)
