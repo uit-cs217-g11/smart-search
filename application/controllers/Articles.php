@@ -86,18 +86,18 @@ class Articles extends MY_Controller
 		if ($id_temp != NULL)
 		{
 			$id_temp[1] = intval($id_temp[1]);
-			//$url_temp = $this->Articles_model->SelectArticleFriendlyURL($id_temp[1]);
+			$url_temp = $this->articles_model->SelectArticleFriendlyURL($id_temp[1]);
 			
-			//if ($url_temp != FALSE)
-			//{
-				return redirect('http://www.stdio.vn'.'/articles/read/'.$id_temp[1], 'refresh');
-				//return redirect(SMART_SEARCH_HOME.'/articles/read/'.$id_temp[1].'/'.$url_temp->friendly_url, 'refresh');
-			//}
+			if ($url_temp != FALSE)
+			{
+				//return redirect('http://www.stdio.vn'.'/articles/read/'.$id_temp[1], 'refresh');
+				return redirect(SMART_SEARCH_HOME.'/articles/read/'.$id_temp[1].'/'.$url_temp->friendly_url, 'refresh');
+			}
 		}
 		
 		// PERFORM REDIRECT TO #ID AUTHOR
 		$id_temp = NULL;
-		preg_match('/^&(\d+)/', $search_str, $id_temp);
+		preg_match('/^@(\d+)/', $search_str, $id_temp);
 		if ($id_temp != NULL)
 		{
 			$id_temp[1] = intval($id_temp[1]);

@@ -10,7 +10,7 @@ function ajax_search_article(event)
 		
 	var search_str = $('#id_search_str').val();
 	
-	search_str = search_str.replace(/([~!@$%^*()_|=`{}\[\]\\:;'<>,.\/? ])+/g, ' ');
+	search_str = search_str.replace(/([~!&$%^*()_|=`{}\[\]\\:;'<>,.\/? ])+/g, ' ');
 	search_str = search_str.replace(/^(-)+|(-)+$/g, ' ');
 	search_str = search_str.replace(/\s+/g, ' ');
 	search_str = $.trim(search_str);
