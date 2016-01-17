@@ -5,6 +5,7 @@ class Articles_model extends CI_Model
 	var $tbl_articles 	= 'articles';
 	var $tbl_keywords	= 'keywords';
 	var $tbl_categories	= 'categories';
+	var $tbl_accounts	= 'accounts';
 	
 	function __construct()
 	{
@@ -32,18 +33,23 @@ class Articles_model extends CI_Model
 		$this->db->select(' b.article_id as article_id,
 							b.title as title,
 							b.description as description,
-							b.author_id as author_id,
 							b.tags as tags,
 							b.friendly_url as friendly_url,
 							
 							c.id as category_id,
 							c.name as category_name,
-							c.friendly_url as category_friendly_url');
+							c.friendly_url as category_friendly_url,
+							
+							d.id as author_id,
+							d.first_name as first_name,
+							d.last_name as last_name,
+							d.friendly_url as author_friendly_url');
 		
 		$this->db->select_sum('a.weight');
 		$this->db->from($this->tbl_keywords . ' as a');
 		$this->db->join($this->tbl_articles. ' as b', 'a.article_id = b.article_id');
 		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
+		$this->db->join($this->tbl_accounts . ' as d', 'b.author_id = d.id');
 		
 		$this->db->like('a.word', array_values($keywords)[0]);
 		array_shift($keywords);
@@ -73,17 +79,22 @@ class Articles_model extends CI_Model
 		$this->db->select(' b.article_id as article_id,
 							b.title as title,
 							b.description as description,
-							b.author_id as author_id,
 							b.content as content,
 							b.tags as tags,
 							b.friendly_url as friendly_url,
 							
 							c.id as category_id,
 							c.name as category_name,
-							c.friendly_url as category_friendly_url');
+							c.friendly_url as category_friendly_url,
+							
+							d.id as author_id,
+							d.first_name as first_name,
+							d.last_name as last_name,
+							d.friendly_url as author_friendly_url');
 		
 		$this->db->from($this->tbl_articles. ' as b');
 		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
+		$this->db->join($this->tbl_accounts . ' as d', 'b.author_id = d.id');
 		$this->db->where('article_id', $article_id);
 
 		$query = $this->db->get();
@@ -113,24 +124,45 @@ class Articles_model extends CI_Model
 		return $this->db->insert_id();
 	}
 	
-	function CountAllArticles()
+	function CountAllArticles($category_id = 0)
 	{
-		$this->db->from($this->tbl_articles);
+		$this->db->from($this->tbl_articles . ' as a');
+		if($category_id != 0)
+			$this->db->where('a.category_id', $category_id);
+		
 		return $this->db->count_all_results();
 	}
 	
-	function SelectAllArticles()
+	function SelectArticlesBriefByCategoryId($category_id, $offset = 0, $limit = 0)
 	{
 		$this->db->select(' b.article_id as article_id,
-							b.category_id as category_id,
 							b.title as title,
 							b.description as description,
-							b.author_id as author_id,
-							b.content as content,
 							b.tags as tags,
-							b.friendly_url as friendly_url');
+							b.friendly_url as friendly_url,
+							
+							c.id as category_id,
+							c.name as category_name,
+							c.friendly_url as category_friendly_url,
+							
+							d.id as author_id,
+							d.first_name as first_name,
+							d.last_name as last_name,
+							d.friendly_url as author_friendly_url');
 							
 		$this->db->from($this->tbl_articles . ' as b');
+		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
+		$this->db->join($this->tbl_accounts . ' as d', 'd.id = b.author_id');
+		
+		if($category_id != 0)
+		{
+			$this->db->where('category_id', $category_id);
+		}
+		
+		if ($limit > 0)
+		{
+			$this->db->limit($limit, $offset);
+		}
 		
 		$query = $this->db->get();
 		return $query->result();
@@ -156,5 +188,30 @@ class Articles_model extends CI_Model
 		
 		$query = $this->db->get();
         return $query->num_rows();
+	}
+	
+	function SelectAllCategories()
+	{
+		$this->db->select( 'a.id as id,
+							a.name as category_name,
+							a.parent_id as parent_id,
+							a.friendly_url as friendly_url');
+		$this->db->from($this->tbl_categories . ' as a');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
+	function SelectPromoteCategories()
+	{
+		$this->db->select( 'a.id as id,
+							a.name as category_name,
+							a.parent_id as parent_id,
+							a.friendly_url as friendly_url');
+		$this->db->from($this->tbl_categories . ' as a');
+		$this->db->where('a.promote', 1);
+
+		$query = $this->db->get();
+		return $query->result();
 	}
 }

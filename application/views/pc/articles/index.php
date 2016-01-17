@@ -9,85 +9,42 @@
 				<?php $this->load->view('shared/include/control_search_articles')?>
 			</div>
 			
-			<!--<div class="wrapper_content_column_2_element">
-				<div class="articles_concerned_categories">
-					<a href="/articles/index/0/1" <?=$CURRENT_CATEGORY==0?'class="active"':''?>>Tất cả</a>
-					<? foreach ($CONCERNED_CATEGORY as $item) { ?>
-						<a href="/articles/index/<?=$item->a_id.'/'.$item->a_friendly_url?>" <?=$item->a_id==$CURRENT_CATEGORY?'class="active"':''?>><?=$item->a_category_name?></a>
-					<? } ?>
-					
-					<a href="/articles/categories">~</a>
-				</div>
-			</div>
-
-			<? if ($FEARTURE_ARTICLES != NULL) { ?>
 			<div class="wrapper_content_column_2_element">
-				<div class="articles_featured_articles background_color_light_grey">	
-					<h3><i class="fa fa-paperclip fa-fw"></i> BÀI VIẾT TIÊU BIỂU</h3>
-					<div class="list_articles">
-						<? foreach ($FEARTURE_ARTICLES as $item) { ?>
-							<div class="ele_article">
-								<div class="ele_article_left" title="<?=$item->a_type_name?>">
-									<?=$item->a_type_icon?>
-								</div>
-								<div class="ele_article_right">
-									<div class="article_title">
-										<a href="/articles/read/<?=$item->a_id?>/<?=$item->a_friendly_url?>">
-											<?=$item->a_title?>
-										</a>
-									</div>
-	
-									<div class="article_meta">
-										<a href="/articles/category/<?=$item->a_category_id.'/'.$item->ac_friendly_url?>"><?=$item->a_category_name?></a>
-										<span>
-											<?=GetNameByOrder($item->a_first_name, $item->a_last_name, $item->a_name_order)?>										 
-											<i class="fa fa-clock-o"></i> <?=date('d/m/Y', strtotime($item->a_date_created))?> <i class="fa fa-eye"></i> <?=$item->a_page_view?>
-										</span>
-									</div>
-	
-									<div class="article_brief">
-										<?=$item->a_brief?>
-									</div>
-									
-								</div>
-							</div>
-						<? } ?>
-					</div>
+				<div class="promote_categories">
+					<a href="<?=URL_HOME?>/articles/index/0/1" <?=$current_category==0?'class="active"':''?>>Tất cả</a>
+					<?php foreach ($promote_categories as $item) { ?>
+						<a href="<?=URL_HOME?>/articles/index/<?=$item->id.'/'.$item->friendly_url?>" <?=$item->id==$current_category?'class="active"':''?>><?=$item->category_name?></a>
+					<?php } ?>
+					
+					<a href="<?=URL_HOME?>/articles/categories">~</a>
 				</div>
 			</div>
-			<? } ?>			
 			
 			<div class="wrapper_content_column_2_element">
 				<div class="articles_normal_articles">
 					<div class="title_base title_color_darkorange"><span><i class="fa fa-bolt fa-fw"></i> BÀI VIẾT MỚI NHẤT</span></div>
-					<div class="list_articles">
-						<? foreach ($NORMAL_ARTICLES as $item) {	?>
-							<div class="ele_article">
-								<div class="ele_article_left" title="<?=$item->a_type_name?>">
-									<?=$item->a_type_icon?>
-								</div>
-								<div class="ele_article_right">
-									<div class="article_title">
-										<a href="/articles/read/<?=$item->a_id.'/'.$item->a_friendly_url?>">
-											<?=$item->a_title?>
-										</a>
-									</div>
-									
-									<div class="article_meta">
-										<a href="/articles/category/<?=$item->a_category_id.'/'.$item->ac_friendly_url?>"><?=$item->a_category_name?></a>
-										<span>
-											<?=GetNameByOrder($item->a_first_name, $item->a_last_name, $item->a_name_order)?>
-											 <i class="fa fa-clock-o"></i> <?=date('d/m/Y', strtotime($item->a_date_created))?> <i class="fa fa-eye"></i> <?=$item->a_page_view?>
-										</span>
-									</div>
-									
-									<div class="article_brief">
-										<?=$item->a_brief?>
-									</div>
-									
-								</div>
+					
+					<div class="table">
+						<?php foreach ($brief_articles as $article) { ?>
+							<div class="row">
+							<div class="article_title">
+								<a href="<?=URL_HOME?>/articles/read/<?=$article->article_id.'/'.$article->friendly_url?>">
+									<?=$article->title?>
+								</a>
 							</div>
-						<? } ?>
+							
+							<div class="article_meta">
+								#<?=$article->article_id?> • 
+								<a href="<?=URL_HOME?>/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a> • 
+								<a href="http://www.stdio.vn/users/index/<?=$article->author_id.'/'.$article->author_friendly_url?>"><?=$article->last_name . ' ' . $article->first_name?></a> 
+								
+							</div>
+							
+							<div class="article_brief">
+								<?=$article->description?>
+							</div>
+						</div>
+						<?php } ?>
 					</div>
 				</div>
 			</div>
@@ -95,7 +52,7 @@
 			<div class="wrapper_content_column_2_element">
 				<div class="paging"><?=$PAGINATION_STR?></div>
 			</div>
-		</div>-->
+		</div>
 
 		<div class="wrapper_content_column_3">
 			

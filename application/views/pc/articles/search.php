@@ -23,7 +23,10 @@
 							</div>
 							
 							<div class="article_meta">
-								<a href="http://www.stdio.vn/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a>
+								#<?=$article->article_id?> • 
+								<a href="<?=URL_HOME?>/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a> • 
+								<a href="http://www.stdio.vn/users/index/<?=$article->author_id.'/'.$article->author_friendly_url?>"><?=$article->last_name . ' ' . $article->first_name?></a> 
+								
 							</div>
 							
 							<div class="article_brief">

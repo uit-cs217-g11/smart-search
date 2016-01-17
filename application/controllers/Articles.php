@@ -11,8 +11,21 @@ class Articles extends MY_Controller
 		$this->load->model('articles_model');
 	}
 
-	public function index()
+	public function index($category_id = 0, $friendly_url = 'all', $page = 1)
 	{	
+		$PAGE_NUM = $page;
+		$PAGE_LIMIT = 20;
+		$PAGE_OFFSET = $PAGE_LIMIT * ($PAGE_NUM - 1);
+		$PAGE_COUNT = $this->articles_model->CountAllArticles($category_id);
+		
+		$this->data['PAGINATION_STR'] = GetPaging($PAGE_NUM, $PAGE_COUNT, $PAGE_LIMIT, 'articles', 'index', (int) $category_id, $friendly_url);
+		
+		$this->data['promote_categories'] = $this->articles_model->SelectPromoteCategories();
+		$this->data['current_category'] = $category_id;
+		
+		$this->data['brief_articles'] = $this->articles_model->SelectArticlesBriefByCategoryId($category_id, $PAGE_OFFSET, $PAGE_LIMIT);
+		
+		
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/articles/index', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
@@ -48,17 +61,17 @@ class Articles extends MY_Controller
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
 	}
 	
-	public function category()
-	{
-		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
-		//$this->load->view($this->data['PATH_VIEW'].'/articles/index', $this->data);
-		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
-	}
-	
 	public function categories()
 	{
+		$this->data['PAGE_NAVIGATION'] .= ' <a href="/articles/categories">• CÁC CHỦ ĐỀ</a>';
+		
+		$this->data['META_TITLE'] = 'Chủ đề :: ' . $this->data['META_TITLE'];
+		$this->data['META_DESC'] = 'Các chủ đề lập trình và công nghệ thông tin của STDIO.VN';
+		
+		$this->data['categories'] = $this->articles_model->SelectAllCategories();
+		
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
-		//$this->load->view($this->data['PATH_VIEW'].'/articles/index', $this->data);
+		$this->load->view($this->data['PATH_VIEW'].'/articles/categories', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
 	}
 	
