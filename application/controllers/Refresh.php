@@ -18,6 +18,8 @@ class Refresh extends MY_Controller
 	
 	public function articles($limited = 0)
 	{
+		//return;		// LOCK
+		
 		$this->load->model("crawl_model");
 		
 		$this->articles_model->EmptyTableArticle();
@@ -79,6 +81,8 @@ class Refresh extends MY_Controller
 	
 	public function load_articles()
 	{
+		//return;		// LOCK
+		
 		$this->load->helper("file");
 		$articles = $this->articles_model->SelectAllArticles();
 		
@@ -101,6 +105,8 @@ class Refresh extends MY_Controller
 	
 	public function keywords()
 	{
+		//return;		// LOCK
+
 		$this->load->helper('file');
 		$this->load->model('keywords_model');
 		
@@ -135,9 +141,9 @@ class Refresh extends MY_Controller
 			}
 		}
 		
-		foreach($indexed_articles as $indexed_article)
+		foreach($indexed_articles as $item)
 		{
-			$content = read_file($indexed_article);
+			$content = read_file($item);
 
 			$article_id = strtok($content, PHP_EOL);
 			$article_id = intval(preg_replace('/[^0-9]/s', '', $article_id));
@@ -151,12 +157,18 @@ class Refresh extends MY_Controller
 			
 			foreach($keywords_map as $keyword)
 			{
-				$word = explode('|', $keyword);
+				$word_info = explode('|', $keyword);
+				$word = $word_info[0];
+				
+				$tf = $word_info[1];
+				$idf = 1;
+				$weight = $tf * $idf;
+				
 				$data = array(
-						"word"			=> $word[0],
-						"weight"		=> $word[1],
-						"tf"			=> $word[1],
-						"idf"			=> 0,
+						"word"			=> $word,
+						"weight"		=> $weight,
+						"tf"			=> $tf,
+						"idf"			=> $idf,
 						"article_id"	=> $article_id
 				);
 
@@ -166,6 +178,26 @@ class Refresh extends MY_Controller
 			$this->keywords_model->InsertKeywords($keywords);
 		}
 		
+		return redirect(SMART_SEARCH_HOME);
+	}
+	
+	public function keywords_weight()
+	{
+		//return;			// LOCK
+		
+		$this->load->model('keywords_model');
+		
+		$keywords_count = $this->keywords_model->CountAllKeywords();
+		$distinct_keywords = $this->keywords_model->SelectDistinctKeywords();
+
+		foreach($distinct_keywords as $item)
+		{
+			$keywords = $this->keywords_model->SelectKeywords($item->word);
+			$idf = log10($keywords_count / count($keywords));
+
+			$this->keywords_model->UpdateWeightTfAndIdfByWord($item->word, $item->tf * $idf, $idf);
+		}
+
 		return redirect(SMART_SEARCH_HOME);
 	}
 }
