@@ -65,14 +65,15 @@ class Refresh extends MY_Controller
 				
 				$article_info = $this->crawl_model->getArticle($articleHtml);				
 				
-				$this->articles_model->insertArticle($article_id, 
+				$this->articles_model->InsertArticle($article_id, 
 														$article_info["category_id"], 
 														$article_info["title"], 
 														$article_brief, 
 														$article_info["author_id"], 
 														$article_info["content"], 
 														$article_info["tags"], 
-														$article_info["friendly_url"]);
+														$article_info["friendly_url"],
+														$url);
 			}
 		}
 		

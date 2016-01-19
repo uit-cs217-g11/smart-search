@@ -17,6 +17,11 @@
 
 			<div class="wrapper_content_column_2_element">
 				<div class="article_box">
+					<div class="base_url">
+						Link gốc: 
+						<a href="<?=$article->base_url?>"><?=$article->base_url?></a>
+					</div>
+				
 					<div class="article_meta">
 						<div class="article_meta_info">							
 							#<?=$article->article_id?> • 

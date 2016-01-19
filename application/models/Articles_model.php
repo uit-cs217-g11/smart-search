@@ -17,9 +17,10 @@ class Articles_model extends CI_Model
 		$this->db->select('a.friendly_url as friendly_url');
 		
 		$this->db->from($this->tbl_articles . ' as a');
+		$this->db->where("a.article_id", $article_id);
 		
-		$this->db->where("a.id", $article_id);
 		$query = $this->db->get();
+		
 		if ($query->num_rows() == 1)
 			return $query->row();
 		return FALSE;
@@ -35,7 +36,7 @@ class Articles_model extends CI_Model
 							b.description as description,
 							b.tags as tags,
 							b.friendly_url as friendly_url,
-							
+
 							c.id as category_id,
 							c.name as category_name,
 							c.friendly_url as category_friendly_url,
@@ -82,6 +83,7 @@ class Articles_model extends CI_Model
 							b.content as content,
 							b.tags as tags,
 							b.friendly_url as friendly_url,
+							b.base_url as base_url,
 							
 							c.id as category_id,
 							c.name as category_name,
@@ -106,7 +108,7 @@ class Articles_model extends CI_Model
 		$this->db->truncate($this->tbl_articles);
 	}
 	
-	function InsertArticle($article_id, $category_id, $title, $description, $author_id, $content, $tags, $friendly_url)
+	function InsertArticle($article_id, $category_id, $title, $description, $author_id, $content, $tags, $friendly_url, $base_url)
 	{
 		$data = array(
 			"article_id" =>$article_id,
@@ -116,7 +118,8 @@ class Articles_model extends CI_Model
 			"author_id" => $author_id,
 			"content" => $content,
 			"tags" => $tags,
-			"friendly_url" => $friendly_url
+			"friendly_url" => $friendly_url,
+			"base_url" => $base_url
 		);
 		
 		$this->db->insert($this->tbl_articles, $data);
@@ -140,7 +143,7 @@ class Articles_model extends CI_Model
 							b.description as description,
 							b.tags as tags,
 							b.friendly_url as friendly_url,
-							
+
 							c.id as category_id,
 							c.name as category_name,
 							c.friendly_url as category_friendly_url,

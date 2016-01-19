@@ -316,6 +316,14 @@ a:hover{color:#ff9800}
 
 /* ARTICLES META - START */
 
+.article_box .base_url{
+	min-height:30px;
+	width:100%;
+	line-height:10px;
+	font-size:0.8em;
+	float:left;
+}
+
 .article_box .article_meta{
 	min-height:30px;
 }

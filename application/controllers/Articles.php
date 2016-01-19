@@ -47,7 +47,6 @@ class Articles extends MY_Controller
 			$this->data['META_TITLE'] = $article->title . ' :: ' . $this->data['META_TITLE'];
 			$this->data['META_DESC'] = $article->description;
 			$this->data['META_URL'] = SMART_SEARCH_HOME.'/articles/read/'.$article->article_id.'/'.$article->friendly_url;
-		
 		}
 		else
 		{
@@ -63,8 +62,6 @@ class Articles extends MY_Controller
 	
 	public function categories()
 	{
-		$this->data['PAGE_NAVIGATION'] .= ' <a href="/articles/categories">• CÁC CHỦ ĐỀ</a>';
-		
 		$this->data['META_TITLE'] = 'Chủ đề :: ' . $this->data['META_TITLE'];
 		$this->data['META_DESC'] = 'Các chủ đề lập trình và công nghệ thông tin của STDIO.VN';
 		
@@ -77,6 +74,9 @@ class Articles extends MY_Controller
 	
 	public function search($search_str = CHAR_EMPTY, $page = 1)
 	{
+		$this->data['META_TITLE'] = 'Tìm kiếm :: ' . $this->data['META_TITLE'];
+		$this->data['META_DESC'] = 'Tìm kiếm về lập trình và công nghệ thông tin của STDIO.VN';
+		
 		// VALIDATE
 		$search_str = urldecode($search_str);
 		
@@ -85,23 +85,20 @@ class Articles extends MY_Controller
 		preg_match('/^#(\d+)/', $search_str, $id_temp);
 		if ($id_temp != NULL)
 		{
-			$id_temp[1] = intval($id_temp[1]);
-			$url_temp = $this->articles_model->SelectArticleFriendlyURL($id_temp[1]);
-			
+			$url_temp = $this->articles_model->SelectArticleFriendlyURL(intval($id_temp[1]));
+
 			if ($url_temp != FALSE)
 			{
-				//return redirect('http://www.stdio.vn'.'/articles/read/'.$id_temp[1], 'refresh');
 				return redirect(SMART_SEARCH_HOME.'/articles/read/'.$id_temp[1].'/'.$url_temp->friendly_url, 'refresh');
 			}
 		}
 		
-		// PERFORM REDIRECT TO #ID AUTHOR
+		// PERFORM REDIRECT TO @ID AUTHOR
 		$id_temp = NULL;
 		preg_match('/^@(\d+)/', $search_str, $id_temp);
 		if ($id_temp != NULL)
 		{
-			$id_temp[1] = intval($id_temp[1]);
-			return redirect('http://www.stdio.vn'.'/users/index/'.$id_temp[1], 'refresh');
+			return redirect('http://www.stdio.vn'.'/users/index/'.intval($id_temp[1]), 'refresh');
 		}
 
 		$keywords = explode('+', $search_str);
@@ -117,9 +114,6 @@ class Articles extends MY_Controller
 		$this->data['articles_brief'] = $this->articles_model->SelectArticlesBriefByKeywords($keywords, $PAGE_OFFSET, $PAGE_LIMIT);
 		
 		$this->data['PAGINATION_STR'] = GetPaging($PAGE_NUM, $PAGE_COUNT, $PAGE_LIMIT, 'articles', 'search', -1, $search_str);
-		
-		// TODO
-		// Add Paging
 
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/articles/search', $this->data);
