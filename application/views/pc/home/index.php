@@ -6,6 +6,14 @@
 		
 		<div class="wrapper_content_column_2">
 			<div class="wrapper_content_column_2_element">
+				
+			</div>
+			
+			<div class="wrapper_content_column_2_element">
+				
+			</div>
+			
+			<div class="wrapper_content_column_2_element">
 				<div class="title">Smart Search</div>
 			</div>
 			

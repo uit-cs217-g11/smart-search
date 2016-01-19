@@ -87,7 +87,6 @@ a:hover{color:#ff9800}
 
 .wrapper_header_center{
 	height:40px;
-	background:#fff;
 }
 
 .wrapper_header_center .wrapper_menu{
@@ -207,7 +206,7 @@ a:hover{color:#ff9800}
 	font-size:3.5em;
 	font-weight:100;
 	text-align:center;
-	color:#d32f2f;
+	color:#ff9800;
 	margin-bottom:40px;
 	float:left;
 }
