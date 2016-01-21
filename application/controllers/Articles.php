@@ -72,13 +72,13 @@ class Articles extends MY_Controller
 		$this->load->view($this->data['PATH_VIEW'].'/include/footer', $this->data);
 	}
 	
-	public function search($search_str = CHAR_EMPTY, $page = 1)
+	public function search($search_str_encode = CHAR_EMPTY, $page = 1)
 	{
 		$this->data['META_TITLE'] = 'Tìm kiếm :: ' . $this->data['META_TITLE'];
 		$this->data['META_DESC'] = 'Tìm kiếm về lập trình và công nghệ thông tin của STDIO.VN';
 		
 		// VALIDATE
-		$search_str = urldecode($search_str);
+		$search_str = urldecode($search_str_encode);
 		
 		// PERFORM REDIRECT TO #ID ARTICLE
 		$id_temp = NULL;
@@ -113,7 +113,7 @@ class Articles extends MY_Controller
 		$this->data['keywords'] = $search_str;
 		$this->data['articles_brief'] = $this->articles_model->SelectArticlesBriefByKeywords($keywords, $PAGE_OFFSET, $PAGE_LIMIT);
 		
-		$this->data['PAGINATION_STR'] = GetPaging($PAGE_NUM, $PAGE_COUNT, $PAGE_LIMIT, 'articles', 'search', -1, $search_str);
+		$this->data['PAGINATION_STR'] = GetPaging($PAGE_NUM, $PAGE_COUNT, $PAGE_LIMIT, 'articles', 'search', -1, $search_str_encode);
 
 		$this->load->view($this->data['PATH_VIEW'].'/include/header', $this->data);
 		$this->load->view($this->data['PATH_VIEW'].'/articles/search', $this->data);

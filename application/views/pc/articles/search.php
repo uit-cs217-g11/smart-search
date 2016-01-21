@@ -22,6 +22,8 @@
 								</a>
 							</div>
 							
+							<input type="hidden" name="weight" value="<?=$article->sum_weight?>">
+							
 							<div class="article_meta">
 								#<?=$article->article_id?> • 
 								<a href="<?=URL_HOME?>/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a> • 

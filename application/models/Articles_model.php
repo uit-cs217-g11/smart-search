@@ -46,7 +46,7 @@ class Articles_model extends CI_Model
 							d.last_name as last_name,
 							d.friendly_url as author_friendly_url');
 		
-		$this->db->select_sum('a.weight');
+		$this->db->select_sum('a.weight', 'sum_weight');
 		$this->db->from($this->tbl_keywords . ' as a');
 		$this->db->join($this->tbl_articles. ' as b', 'a.article_id = b.article_id');
 		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
@@ -134,6 +134,23 @@ class Articles_model extends CI_Model
 			$this->db->where('a.category_id', $category_id);
 		
 		return $this->db->count_all_results();
+	}
+	
+	function SelectAllArticles()
+	{
+		$this->db->select(' b.article_id as article_id,
+							b.category_id as category_id,
+							b.title as title,
+							b.description as description,
+							b.content as content,
+							b.tags as tags,
+							b.friendly_url as friendly_url,
+							b.base_url as base_url');
+							
+		$this->db->from($this->tbl_articles . ' as b');
+
+		$query = $this->db->get();
+		return $query->result();
 	}
 	
 	function SelectArticlesBriefByCategoryId($category_id, $offset = 0, $limit = 0)

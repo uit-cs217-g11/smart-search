@@ -206,14 +206,14 @@
 			this.ClientSize = new System.Drawing.Size(934, 461);
 			this.Controls.Add(this.btn_canceled_indexing);
 			this.Controls.Add(this.btn_canceled_tokenize);
-			this.Controls.Add(this.progress_bar);
-			this.Controls.Add(this.browse_folder_tokenized);
 			this.Controls.Add(this.btn_indexing);
-			this.Controls.Add(this.txtbox_indexed);
 			this.Controls.Add(this.btn_tokenize);
+			this.Controls.Add(this.txtbox_input);
+			this.Controls.Add(this.txtbox_indexed);
 			this.Controls.Add(this.txtbox_tokenized);
 			this.Controls.Add(this.browse_folder_raw);
-			this.Controls.Add(this.txtbox_input);
+			this.Controls.Add(this.browse_folder_tokenized);
+			this.Controls.Add(this.progress_bar);
 			this.Controls.Add(this.label_rye);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -226,21 +226,20 @@
         }
 
 
-
 		#endregion
 
-		private LollipopLabel label_rye;
-		private LollipopTextBox txtbox_input;
-		private LollipopFolderInPut browse_folder_raw;
-		private LollipopTextBox txtbox_tokenized;
-		private LollipopButton btn_tokenize;
-		private LollipopTextBox txtbox_indexed;
-		private LollipopButton btn_indexing;
-		private LollipopFolderInPut browse_folder_tokenized;
-		private System.Windows.Forms.Timer timer;
-		private LollipopProgressBar progress_bar;
 		private LollipopFlatButton btn_canceled_tokenize;
 		private LollipopFlatButton btn_canceled_indexing;
+		private LollipopButton btn_tokenize;
+		private LollipopButton btn_indexing;
+		private LollipopTextBox txtbox_input;
+		private LollipopTextBox txtbox_indexed;
+		private LollipopTextBox txtbox_tokenized;
+		private LollipopFolderInPut browse_folder_raw;
+		private LollipopFolderInPut browse_folder_tokenized;
+		private LollipopProgressBar progress_bar;
+		private LollipopLabel label_rye;
+		private System.Windows.Forms.Timer timer;
 	}
 }
 

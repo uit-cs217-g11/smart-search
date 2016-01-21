@@ -206,7 +206,7 @@ a:hover{color:#ff9800}
 	font-size:3.5em;
 	font-weight:100;
 	text-align:center;
-	color:#ff9800;
+	color:#c13832;
 	margin-bottom:40px;
 	float:left;
 }
@@ -219,7 +219,7 @@ a:hover{color:#ff9800}
 .wrapper_content_column_2_element .developers{
 	width:100%;
 	display:table;
-	font-size:1.8em;
+	font-size:2.0em;
 	font-weight:100;
 	text-align:center;
 	color:#c13832;
@@ -236,7 +236,7 @@ a:hover{color:#ff9800}
 }
 
 .row .name{
-	width:530px;
+	width:auto;
 	height:32px;
 	float:left;
 	margin:15px 15px;

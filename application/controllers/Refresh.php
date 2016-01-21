@@ -7,8 +7,6 @@ class Refresh extends MY_Controller
 		parent::__construct();
 	
 		$this->data['META_TITLE'] = 'Cập nhật :: ' . $this->data['META_TITLE'];
-		
-		$this->load->model("articles_model");
 	}
 	
 	public function index()
@@ -16,15 +14,21 @@ class Refresh extends MY_Controller
 		return redirect(SMART_SEARCH_HOME);
 	}
 	
-	public function articles($limited = 0)
+	public function articles($limited = 0, $offset = 0)
 	{
 		//return;		// LOCK
 		
+		$this->load->model("articles_model");
 		$this->load->model("crawl_model");
 		
 		$this->articles_model->EmptyTableArticle();
-
+		
 		$current_page = 1;
+		if($limited != 0)
+		{
+			$current_page = $offset;
+		}
+		
 		$controlHtmls = array();
 
 		while(true)
@@ -35,19 +39,19 @@ class Refresh extends MY_Controller
 
 			if(strpos($html, '<i class="fa fa-angle-right fa-lg"></i></div><div class="button_disable">') != FALSE)
 				break;
-				
-			if($limited != NULL)
+	
+			$current_page++;
+			
+			if($limited != 0)
 			{
-				if($current_page == $limited)
+				if($current_page >= $limited + $offset)
 					break;
 			}
-				
-			$current_page++;
 		}
 		
-		foreach($controlHtmls as $controlHtml)
+		foreach($controlHtmls as $item)
 		{
-			$content = substr($controlHtml, strpos($controlHtml, 'BÀI VIẾT MỚI NHẤT'));
+			$content = substr($item, strpos($item, 'BÀI VIẾT MỚI NHẤT'));
 
 			while(true)
 			{
@@ -84,6 +88,7 @@ class Refresh extends MY_Controller
 	{
 		//return;		// LOCK
 		
+		$this->load->model("articles_model");
 		$this->load->helper("file");
 		$articles = $this->articles_model->SelectAllArticles();
 		
@@ -91,13 +96,13 @@ class Refresh extends MY_Controller
 		{
 			$data = $item->article_id.PHP_EOL.$item->friendly_url.PHP_EOL.$item->title.PHP_EOL.$item->tags.PHP_EOL.strip_tags($item->content);
 			
-			if (!write_file('raw_data/'.$item->article_id.'-'.$item->friendly_url.'.raw', $data, 'w'))
+			if (write_file('raw_data/'.$item->article_id.'-'.$item->friendly_url.'.raw', $data, 'w'))
 			{
-				echo 'FALSE';
+				echo 'TRUE';
 			}
 			else
 			{
-				echo 'TRUE';
+				echo 'FALSE';
 			}
 		}
 		

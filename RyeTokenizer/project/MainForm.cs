@@ -49,13 +49,18 @@ namespace LollipopUI
 				return;
 
 			m_outputDirectory = _dialog.SelectedPath.Replace("\r", String.Empty);
+			m_untokenizedOutputDirectory = "";
 
-			FolderBrowserDialog _dialogUntokenized = new FolderBrowserDialog();
-			_dialogUntokenized.Description = "Open Untokenize folder";
-			if (_dialogUntokenized.ShowDialog() != DialogResult.OK)
-				return;
+			DialogResult _result = MessageBox.Show("Do you want to store untokenize words?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+			if (_result == DialogResult.Yes)
+			{
+				FolderBrowserDialog _dialogUntokenized = new FolderBrowserDialog();
+				_dialogUntokenized.Description = "Open Untokenize folder";
+				if (_dialogUntokenized.ShowDialog() != DialogResult.OK)
+					return;
 
-			m_untokenizedOutputDirectory = _dialogUntokenized.SelectedPath.Replace("\r", String.Empty);
+				m_untokenizedOutputDirectory = _dialogUntokenized.SelectedPath.Replace("\r", String.Empty);
+			}
 
 			m_tokenizingWorker.RunWorkerAsync();
 
@@ -265,8 +270,12 @@ namespace LollipopUI
 
 
 						Tokenizer _tokenizer = new Tokenizer();
-						ArrayList _result = _tokenizer.Tokenizing(_content, true, m_untokenizedOutputDirectory + "\\" + _id + '-' + _friendly_url + ".not");
 
+						ArrayList _result = null;
+						if (m_untokenizedOutputDirectory == "")
+							_result = _tokenizer.Tokenizing(_content);
+						else
+							_result = _tokenizer.Tokenizing(_content, true, m_untokenizedOutputDirectory + "\\" + _id + '-' + _friendly_url + ".not");
 
 						string _outputPath = m_outputDirectory + "\\" + _id + '-' + _friendly_url + ".tok";
 						var _writetream = new System.IO.FileStream(_outputPath,
