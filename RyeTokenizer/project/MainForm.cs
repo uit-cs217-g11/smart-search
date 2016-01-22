@@ -334,6 +334,9 @@ namespace LollipopUI
 
 			try
 			{
+				int _currentProgress = 0;
+				m_tokenizingWorker.ReportProgress(0);
+
 				foreach (string _line in _lines)
 				{
 					try
@@ -383,6 +386,9 @@ namespace LollipopUI
 						_writetream.Dispose();
 
 						m_inputIndexed += _outputPath + Environment.NewLine;
+
+						_currentProgress++;
+						m_tokenizingWorker.ReportProgress(_currentProgress * 100 / _lines.Count());
 
 						if (m_indexingWorker.CancellationPending)
 						{

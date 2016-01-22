@@ -100,3 +100,5 @@ define('DEVICE_PHONE',		2);
 define('DEVICE_TABLET',		3);
 
 define('CHAR_EMPTY',	'');
+
+define('DEBUG_MODE', true);

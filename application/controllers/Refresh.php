@@ -16,7 +16,8 @@ class Refresh extends MY_Controller
 	
 	public function articles($limited = 0, $offset = 0)
 	{
-		//return;		// LOCK
+		if(DEBUG_MODE == false)
+			return;		// LOCK
 		
 		$this->load->model("articles_model");
 		$this->load->model("crawl_model");
@@ -86,7 +87,8 @@ class Refresh extends MY_Controller
 	
 	public function load_articles()
 	{
-		//return;		// LOCK
+		if(DEBUG_MODE == false)
+			return;		// LOCK
 		
 		$this->load->model("articles_model");
 		$this->load->helper("file");
@@ -111,7 +113,8 @@ class Refresh extends MY_Controller
 	
 	public function keywords()
 	{
-		//return;		// LOCK
+		if(DEBUG_MODE == false)
+			return;		// LOCK
 
 		$this->load->helper('file');
 		$this->load->model('keywords_model');
@@ -189,7 +192,8 @@ class Refresh extends MY_Controller
 	
 	public function keywords_weight()
 	{
-		//return;			// LOCK
+		if(DEBUG_MODE == false)
+			return;		// LOCK
 		
 		$this->load->model('keywords_model');
 		
