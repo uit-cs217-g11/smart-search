@@ -50,40 +50,40 @@
     <Compile Include="Dictionary.cs" />
     <Compile Include="UIManagers\DrawHelper.cs" />
     <Compile Include="UIManagers\FontManager.cs" />
-    <Compile Include="Controls\LollipopButton.cs">
+    <Compile Include="Resources\Controls\LollipopButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopCard.cs">
+    <Compile Include="Resources\Controls\LollipopCard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopCheckBox.cs">
+    <Compile Include="Resources\Controls\LollipopCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopFileInput.cs">
+    <Compile Include="Resources\Controls\LollipopFileInput.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopFlatButton.cs">
+    <Compile Include="Resources\Controls\LollipopFlatButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopFolderInPut.cs">
+    <Compile Include="Resources\Controls\LollipopFolderInPut.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopLabel.cs">
+    <Compile Include="Resources\Controls\LollipopLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopProgressBar.cs">
+    <Compile Include="Resources\Controls\LollipopProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopRadioButton.cs">
+    <Compile Include="Resources\Controls\LollipopRadioButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopSmallCard.cs">
+    <Compile Include="Resources\Controls\LollipopSmallCard.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopTextBox.cs">
+    <Compile Include="Resources\Controls\LollipopTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LollipopToggle.cs">
+    <Compile Include="Resources\Controls\LollipopToggle.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MainForm.cs">

@@ -242,12 +242,11 @@ namespace LollipopUI
 		private void m_tokenizingWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			string[] _lines = txtbox_input.Lines;
+			int _currentProgress = 0;
+			m_tokenizingWorker.ReportProgress(0);
 
 			try
 			{
-				int _currentProgress = 0;
-				m_tokenizingWorker.ReportProgress(0);
-
 				foreach (string _line in _lines)
 				{
 					try
@@ -331,12 +330,11 @@ namespace LollipopUI
 		private void m_indexingWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			string[] _lines = txtbox_tokenized.Lines;
+			int _currentProgress = 0;
+			m_tokenizingWorker.ReportProgress(0);
 
 			try
 			{
-				int _currentProgress = 0;
-				m_tokenizingWorker.ReportProgress(0);
-
 				foreach (string _line in _lines)
 				{
 					try
