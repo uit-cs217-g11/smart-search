@@ -14,42 +14,28 @@ class Refresh extends MY_Controller
 		return redirect(SMART_SEARCH_HOME);
 	}
 	
-	public function articles($limited = 0, $offset = 0)
+	public function get_article_urls()
 	{
-		if(DEBUG_MODE == false)
-			return;		// LOCK
-		
-		$this->load->model("articles_model");
 		$this->load->model("crawl_model");
-		
-		$this->articles_model->EmptyTableArticle();
-		
-		$current_page = 1;
-		if($limited != 0)
-		{
-			$current_page = $offset;
-		}
+		$this->load->helper("file");
 		
 		$controlHtmls = array();
-
+		$articles_info = array();
+		
+		$current_page = 1;
+		
 		while(true)
 		{
 			$controlPageUrl = "http://www.stdio.vn/articles/index/0/all/".$current_page;
 			$html = $this->crawl_model->getPage($controlPageUrl, "http", 30, "");
-			$controlHtmls[] = $html;
+			array_push($controlHtmls, $html);
 
 			if(strpos($html, '<i class="fa fa-angle-right fa-lg"></i></div><div class="button_disable">') != FALSE)
 				break;
 	
 			$current_page++;
-			
-			if($limited != 0)
-			{
-				if($current_page >= $limited + $offset)
-					break;
-			}
 		}
-		
+
 		foreach($controlHtmls as $item)
 		{
 			$content = substr($item, strpos($item, 'BÀI VIẾT MỚI NHẤT'));
@@ -57,35 +43,88 @@ class Refresh extends MY_Controller
 			while(true)
 			{
 				$url = "http://www.stdio.vn".$this->crawl_model->getBetween($content, '<a href="', '">');
-				
+
 				if(strpos($url, 'read/') === FALSE)
 					break;
+					
+				$article_id = $this->crawl_model->getBetween($url, 'http://www.stdio.vn/articles/read/', '/');
+				$friendly_url = substr($url, strlen('http://www.stdio.vn/articles/read/') + strlen($article_id) + 1);
 
-				$article_id = $this->crawl_model->getBetween($url, 'http://www.stdio.vn/articles/read/', '/');			
-				$articleHtml = $this->crawl_model->getPage($url, "http", 30, "");
-				
 				$content = substr($content, strpos($content, '<div class="article_brief">', strlen('<div class="article_brief">')));
 				$article_brief = $this->crawl_model->getBetween($content, '<div class="article_brief">', '</div>');
 				$article_brief = trim($article_brief);
 				
-				$article_info = $this->crawl_model->getArticle($articleHtml);				
+				$article = array(
+					'a_id'				=> $article_id,
+					'a_brief'			=> $article_brief,
+					'a_friendly_url'	=> $friendly_url
+				);
 				
-				$this->articles_model->InsertArticle($article_id, 
-														$article_info["category_id"], 
-														$article_info["title"], 
-														$article_brief, 
-														$article_info["author_id"], 
-														$article_info["content"], 
-														$article_info["tags"], 
-														$article_info["friendly_url"],
-														$url);
+				array_push($articles_info, $article);
 			}
 		}
 		
-		return redirect(SMART_SEARCH_HOME);
+		if (!is_dir('data/')) {
+			mkdir('data/', 0777, true);
+		}
+
+		if (write_file('data/articles_info.dat', serialize($articles_info), 'w'))
+		{
+			echo 'TRUE';
+		}
+		else
+		{
+			echo 'FALSE';
+		}
 	}
 	
-	public function load_articles()
+	public function articles($limit = 0, $offset = 0)
+	{
+		if(DEBUG_MODE == FALSE)
+			return;		// LOCK
+		
+		$this->load->model("articles_model");
+		$this->load->model("crawl_model");
+		$this->load->helper('file');
+		
+		$content = read_file('data/articles_info.dat');
+
+		if($content == '')
+			return;
+
+		$articles_info = unserialize($content);
+		
+		if($limit != 0)
+			$articles_info = array_slice($articles_info, $offset, $limit);
+
+		foreach($articles_info as $item)
+		{
+			$url = 'http://www.stdio.vn/articles/read/'.$item['a_id'].'/'.$item['a_friendly_url'];
+			$articleHtml = $this->crawl_model->getPage($url, "http", 30, "");
+			
+			$article_info = $this->crawl_model->getArticle($articleHtml);
+
+			// echo $item['a_id'].' - '.$article_info["title"].'<br/>';
+			// print_r(implode('|', unserialize($article_info["keywords"])));
+			// echo '<br/><br/>';
+			
+			$a_id = $this->articles_model->InsertArticle(	$item['a_id'], 
+													$article_info["category_id"], 
+													$article_info["title"], 
+													$item['a_brief'], 
+													$article_info["author_id"], 
+													$article_info["content"], 
+													$article_info["keywords"], 
+													$item['a_friendly_url'],
+													$url);
+										
+			echo $item['a_id'].(($a_id > 0)?': SUCCESS':': FAILED').'<br/>';
+		}
+
+		//return redirect(SMART_SEARCH_HOME);
+	}
+	
+	public function save_articles_to_file()
 	{
 		if(DEBUG_MODE == false)
 			return;		// LOCK
@@ -94,21 +133,29 @@ class Refresh extends MY_Controller
 		$this->load->helper("file");
 		$articles = $this->articles_model->SelectAllArticles();
 		
+		if (!is_dir('data/raw_data/')) {
+			mkdir('data/raw_data/', 0777, true);
+		}
+		
 		foreach($articles as $item)
 		{
-			$data = $item->article_id.PHP_EOL.$item->friendly_url.PHP_EOL.$item->title.PHP_EOL.$item->tags.PHP_EOL.strip_tags($item->content);
+			$data 	= $item->article_id.PHP_EOL;
+			$data  .= $item->friendly_url.PHP_EOL;
+			$data  .= $item->title.PHP_EOL;
+			$data  .= implode('|', unserialize($item->tags)).PHP_EOL;
+			$data  .= strip_tags($item->content);
 			
-			if (write_file('raw_data/'.$item->article_id.'-'.$item->friendly_url.'.raw', $data, 'w'))
+			if (write_file('data/raw_data/'.$item->article_id.'-'.$item->friendly_url.'.raw', $data))
 			{
-				echo 'TRUE';
+				echo $item->id.': TRUE<br/>';
 			}
 			else
 			{
-				echo 'FALSE';
+				echo $item->id.': FALSE<br/>';
 			}
 		}
 		
-		return redirect(SMART_SEARCH_HOME);
+		//return redirect(SMART_SEARCH_HOME);
 	}
 	
 	public function keywords()
@@ -121,7 +168,7 @@ class Refresh extends MY_Controller
 		
 		$this->keywords_model->EmptyTableKeywords();
 
-		$indexed_directory = "indexed/";
+		$indexed_directory = "data/indexed_data/";
 		$separator = DIRECTORY_SEPARATOR;
 		$paths = 'relative';
 		
@@ -187,7 +234,7 @@ class Refresh extends MY_Controller
 			$this->keywords_model->InsertKeywords($keywords);
 		}
 		
-		return redirect(SMART_SEARCH_HOME);
+		//return redirect(SMART_SEARCH_HOME);
 	}
 	
 	public function keywords_weight()
@@ -208,6 +255,42 @@ class Refresh extends MY_Controller
 			$this->keywords_model->UpdateWeightTfAndIdfByWord($item->word, $item->tf * $idf, $idf);
 		}
 
-		return redirect(SMART_SEARCH_HOME);
+		//return redirect(SMART_SEARCH_HOME);
+	}
+	
+	public function refresh_test()
+	{
+		$this->load->model("articles_model");
+		$article = $this->articles_model->SelectArticlesByArticleId(528);
+		
+		print_r($article);
+	}
+	
+	public function refresh_authors()
+	{
+		$this->load->model('crawl_model');
+		$this->load->model('accounts_model');
+		
+		$url = "http://www.stdio.vn/about";
+		$html = $this->crawl_model->getPage($url, "http", 30, "");
+		
+		$content = substr($html, strpos($html, '<ul class="about_author">'));
+		
+		while(true)
+		{
+			$a_id = $this->crawl_model->getBetween($content, '<a href="/users/index/', '/');
+			$friendly_url = $this->crawl_model->getBetween($content, '<a href="/users/index/'.$a_id.'/', '">');
+			$a_name = trim($this->crawl_model->getBetween($content, '<div class="info">', '<i class="fa fa-long-arrow-right fa-fw"></i>'));
+			
+			if($a_id == '')
+			{
+				echo 'DONE';
+				break;
+			}
+			$content = substr($content, strpos($content, '<i class="fa fa-long-arrow-right fa-fw"></i>', strlen('<i class="fa fa-long-arrow-right fa-fw"></i>')));
+			
+			echo $a_id.' - '.$friendly_url.' - '.$a_name.'<br/>';
+			$this->accounts_model->InsertAccount($a_id, $a_name, $friendly_url);
+		}
 	}
 }

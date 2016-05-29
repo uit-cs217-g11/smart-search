@@ -27,7 +27,7 @@
 							<div class="article_meta">
 								#<?=$article->article_id?> • 
 								<a href="<?=URL_HOME?>/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a> • 
-								<a href="http://www.stdio.vn/users/index/<?=$article->author_id.'/'.$article->author_friendly_url?>"><?=$article->last_name . ' ' . $article->first_name?></a> 
+								<a href="http://www.stdio.vn/users/index/<?=$article->author_id.'/'.$article->author_friendly_url?>"><?=$article->author_name?></a> 
 								
 							</div>
 							

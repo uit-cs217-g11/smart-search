@@ -331,7 +331,7 @@ namespace LollipopUI
 		{
 			string[] _lines = txtbox_tokenized.Lines;
 			int _currentProgress = 0;
-			m_tokenizingWorker.ReportProgress(0);
+			m_indexingWorker.ReportProgress(0);
 
 			try
 			{
@@ -386,7 +386,7 @@ namespace LollipopUI
 						m_inputIndexed += _outputPath + Environment.NewLine;
 
 						_currentProgress++;
-						m_tokenizingWorker.ReportProgress(_currentProgress * 100 / _lines.Count());
+						m_indexingWorker.ReportProgress(_currentProgress * 100 / _lines.Count());
 
 						if (m_indexingWorker.CancellationPending)
 						{

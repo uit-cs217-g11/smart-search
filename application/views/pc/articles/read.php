@@ -26,7 +26,7 @@
 						<div class="article_meta_info">							
 							#<?=$article->article_id?> • 
 							<a href="<?=URL_HOME?>/articles/categories/<?=$article->category_id.'/'.$article->category_friendly_url?>"><?=$article->category_name?></a> • 
-							<a href="http://www.stdio.vn/users/index/<?=$article->author_id.'/'.$article->author_friendly_url?>"><?=$article->last_name . ' ' . $article->first_name?></a> 
+							<a href="http://www.stdio.vn/users/index/<?=$article->author_id.'/'.$article->author_friendly_url?>"><?=$article->author_name?></a> 
 							<i class="fa fa-clock-o"></i>
 						</div>
 					</div>
@@ -40,8 +40,7 @@
 					<div class="article_tag">
 						<div class="ele_tag"><i class="fa fa-tags fa-fw"></i><b>TAGS</b></div>
 						<?php
-							$tags_list = explode('|', $article->tags);
-							foreach($tags_list as $tag)
+							foreach($article->tags as $tag)
 							{
 								echo '<div class="ele_tag">'.$tag.'</div>';
 							}
@@ -50,8 +49,6 @@
 				</div>
 			</div>
 			<?php } ?>		
-			
-			
 		</div>
 	</div>
 </section>

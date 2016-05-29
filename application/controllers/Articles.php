@@ -37,12 +37,11 @@ class Articles extends MY_Controller
 		{
 			return redirect('/articles', 'refresh');
 		}
-		
-		$id = explode('-', $id)[0];
 
 		$article = $this->articles_model->SelectArticlesByArticleId($id);
-		
-		if ($article !== FALSE)
+		$article->tags = unserialize($article->tags);
+
+		if ($article != FALSE)
 		{
 			$this->data['META_TITLE'] = $article->title . ' :: ' . $this->data['META_TITLE'];
 			$this->data['META_DESC'] = $article->description;
@@ -50,7 +49,7 @@ class Articles extends MY_Controller
 		}
 		else
 		{
-			return redirect('/articles', 'refresh');
+			//return redirect('/articles', 'refresh');
 		}
 		
 		$this->data['article'] = $article;

@@ -41,30 +41,22 @@ class Crawl_model extends CI_Model
 	
 	function getArticle($articleHtml)
 	{
-		$category_id = $this->getBetween($articleHtml, '<a href="/articles/category/', '/');
+		$category_id = $this->getBetween($articleHtml, '<a href="/articles/index/', '/');
 		$title = $this->getBetween($articleHtml, '<h1 itemprop="name">', '</h1>');
 		$author_id = $this->getBetween($articleHtml, '<a href="/users/index/', '/');
 		$content = $this->getBetween($articleHtml, '<article class="article_content" itemprop="articleBody">', '</article>');
 		$content = trim($content);
 			
-		$tags = null;
-		$tagInfo = substr($articleHtml, strpos($articleHtml, '<div class="ele_tag">'));
-
-		preg_match_all('/<div class=\"ele_tag\">(.*?)<\/div>/s',$tagInfo, $tags);
-		array_shift($tags);
-		array_splice($tags[0], 0, 1);
-		
-		$tagsStr = implode("|", $tags[0]);
-		
-		$friendly_url = Title2FrienlyUrl($title);
+		$keywords = array();
+		preg_match_all('/<div class="ele_tag" id=""  title="">(.*?)<\/div>/s',$articleHtml, $keywords);
+		$keywords = array_map('trim', $keywords[1]);
 		
 		$article = array(
 			"category_id" => $category_id,
 			"title" => $title,
 			"author_id" => $author_id,
 			"content" => $content,
-			"tags" => $tagsStr,
-			"friendly_url" => $friendly_url
+			"keywords" => serialize($keywords)
 		);
 		
 		return $article;

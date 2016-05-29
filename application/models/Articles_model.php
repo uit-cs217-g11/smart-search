@@ -31,7 +31,8 @@ class Articles_model extends CI_Model
 		if($keywords == NULL)
 			return FALSE;
 			
-		$this->db->select(' b.article_id as article_id,
+		$this->db->select(' b.id as id,
+							b.article_id as article_id,
 							b.title as title,
 							b.description as description,
 							b.tags as tags,
@@ -41,16 +42,15 @@ class Articles_model extends CI_Model
 							c.name as category_name,
 							c.friendly_url as category_friendly_url,
 							
-							d.id as author_id,
-							d.first_name as first_name,
-							d.last_name as last_name,
+							d.account_id as author_id,
+							d.name as author_name,
 							d.friendly_url as author_friendly_url');
 		
 		$this->db->select_sum('a.weight', 'sum_weight');
 		$this->db->from($this->tbl_keywords . ' as a');
 		$this->db->join($this->tbl_articles. ' as b', 'a.article_id = b.article_id');
-		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
-		$this->db->join($this->tbl_accounts . ' as d', 'b.author_id = d.id');
+		$this->db->join($this->tbl_categories . ' as c', 'c.id = b.category_id');
+		$this->db->join($this->tbl_accounts . ' as d', 'd.account_id = b.author_id');
 		
 		$this->db->like('a.word', array_values($keywords)[0]);
 		array_shift($keywords);
@@ -76,8 +76,9 @@ class Articles_model extends CI_Model
 	{
 		if($article_id == NULL)
 			return FALSE;
-			
-		$this->db->select(' b.article_id as article_id,
+
+		$this->db->select(' b.id as id,
+							b.article_id as article_id,
 							b.title as title,
 							b.description as description,
 							b.content as content,
@@ -89,18 +90,20 @@ class Articles_model extends CI_Model
 							c.name as category_name,
 							c.friendly_url as category_friendly_url,
 							
-							d.id as author_id,
-							d.first_name as first_name,
-							d.last_name as last_name,
+							d.account_id as author_id,
+							d.name as author_name,
 							d.friendly_url as author_friendly_url');
 		
 		$this->db->from($this->tbl_articles. ' as b');
 		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
-		$this->db->join($this->tbl_accounts . ' as d', 'b.author_id = d.id');
+		$this->db->join($this->tbl_accounts . ' as d', 'b.author_id = d.account_id');
 		$this->db->where('article_id', $article_id);
 
 		$query = $this->db->get();
-		return $query->row();
+		if ($query->num_rows() > 0)
+			return $query->row();
+			
+		return FALSE;
 	}
 	
 	function EmptyTableArticle()
@@ -138,7 +141,8 @@ class Articles_model extends CI_Model
 	
 	function SelectAllArticles()
 	{
-		$this->db->select(' b.article_id as article_id,
+		$this->db->select(' b.id as id,
+							b.article_id as article_id,
 							b.category_id as category_id,
 							b.title as title,
 							b.description as description,
@@ -165,14 +169,13 @@ class Articles_model extends CI_Model
 							c.name as category_name,
 							c.friendly_url as category_friendly_url,
 							
-							d.id as author_id,
-							d.first_name as first_name,
-							d.last_name as last_name,
+							d.account_id as author_id,
+							d.name as author_name,
 							d.friendly_url as author_friendly_url');
 							
 		$this->db->from($this->tbl_articles . ' as b');
 		$this->db->join($this->tbl_categories . ' as c', 'b.category_id = c.id');
-		$this->db->join($this->tbl_accounts . ' as d', 'd.id = b.author_id');
+		$this->db->join($this->tbl_accounts . ' as d', 'd.account_id = b.author_id');
 		
 		if($category_id != 0)
 		{
