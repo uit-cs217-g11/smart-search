@@ -293,4 +293,53 @@ class Refresh extends MY_Controller
 			$this->accounts_model->InsertAccount($a_id, $a_name, $friendly_url);
 		}
 	}
+	
+	public function load_dictionaries($path = '')
+	{
+		if($path == '')
+		{
+			echo 'FAILED';
+			return FALSE;
+		}
+		
+		$this->load->helper("file");
+		$this->load->model('dictionaries_model');
+		$words = file($path);
+		
+		if($words == '')
+			return FALSE;
+
+		$dicts = array();
+		
+		foreach($words as $word)
+		{
+			array_push($dicts, array('word' => $word));
+		}
+		
+		$this->dictionaries_model->InsertDictionaries($dicts);
+	}
+	
+	public function load_stopwords($path = '')
+	{
+		return FALSE;
+		// if($path == '')
+		// {
+		// 	echo 'FAILED';
+		// 	return FALSE;
+		// }
+		
+		// $this->load->helper("file");
+		// $this->load->model('dictionaries_model');
+		// $words = file($path);
+		
+		// if($words == '')
+		// 	return FALSE;
+			
+		// foreach($words as $word)
+		// {
+		// 	echo $word;
+		// 	break;
+		// }
+		
+	}
 }

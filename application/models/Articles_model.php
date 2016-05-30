@@ -53,12 +53,13 @@ class Articles_model extends CI_Model
 		$this->db->join($this->tbl_accounts . ' as d', 'd.account_id = b.author_id');
 		
 		$this->db->like('a.word', array_values($keywords)[0]);
+		//$this->db->or_like(array_values($keywords)[0], '%a.word%');
 		array_shift($keywords);
 		
-		foreach($keywords as $item)
-		{
-			$this->db->or_like('a.word', $item);
-		}
+		// foreach($keywords as $item)
+		// {
+		// 	$this->db->or_like('a.word', $item);
+		// }
 		
 		$this->db->group_by('article_id');
 		$this->db->order_by('weight', 'desc');
