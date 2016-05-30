@@ -19,4 +19,15 @@ class Dictionaries_model extends CI_Model
 		$this->db->where('word', $word);
 		$this->db->delete($this->tbl_dictionaries);
 	}
+	
+	function IsWordExist($word)
+	{
+		$this->db->select('*');		
+		$this->db->from($this->tbl_dictionaries.' as a');
+		$this->db->like('a.word', $word);
+		
+		$query = $this->db->get();
+
+		return ($query->num_rows() > 0);
+	}
 }

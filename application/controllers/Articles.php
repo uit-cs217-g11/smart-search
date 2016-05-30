@@ -100,7 +100,7 @@ class Articles extends MY_Controller
 			return redirect('http://www.stdio.vn'.'/users/index/'.intval($id_temp[1]), 'refresh');
 		}
 
-		$keywords = explode('+', $search_str);
+		$keywords = $this->smart_search->tokenizing($search_str);
 		
 		$PAGE_NUM = $page;
 		$PAGE_LIMIT = 20;
@@ -109,7 +109,9 @@ class Articles extends MY_Controller
 		
 		$PAGE_COUNT = $this->articles_model->CountArticleByKeywords($keywords);
 
-		$this->data['keywords'] = $search_str;
+		//$this->data['keywords'] = $search_str;
+		
+		$this->data['keywords'] = implode('|', $keywords);
 		$this->data['articles_brief'] = $this->articles_model->SelectArticlesBriefByKeywords($keywords, $PAGE_OFFSET, $PAGE_LIMIT);
 		
 		$this->data['PAGINATION_STR'] = GetPaging($PAGE_NUM, $PAGE_COUNT, $PAGE_LIMIT, 'articles', 'search', -1, $search_str_encode);

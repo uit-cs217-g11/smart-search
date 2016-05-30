@@ -258,14 +258,6 @@ class Refresh extends MY_Controller
 		//return redirect(SMART_SEARCH_HOME);
 	}
 	
-	public function refresh_test()
-	{
-		$this->load->model("articles_model");
-		$article = $this->articles_model->SelectArticlesByArticleId(528);
-		
-		print_r($article);
-	}
-	
 	public function refresh_authors()
 	{
 		$this->load->model('crawl_model');

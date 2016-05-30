@@ -8,6 +8,9 @@ function InitLibrary(&$instance)
 	$instance->load->helper('url_helper');
 	$instance->load->helper('text_helper');
 	$instance->load->helper('date_helper');
+	
+	$instance->load->library(array(	'smart_search'
+							));
 }
 
 class My_Controller extends CI_Controller
@@ -25,7 +28,7 @@ class My_Controller extends CI_Controller
 		$this->data['META_IMG']			= '';
 
 		$this->data['META_DESC'] = 'Smart search.';
-		$this->data['META_KEYWORD'] = 'smartsearch';
+		$this->data['META_KEYWORD'] = 'smart-search';
 
 	}
 	

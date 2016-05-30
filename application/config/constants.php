@@ -90,15 +90,15 @@ define('URL_HOME',	'http://'.$_SERVER['HTTP_HOST'].'/smart-search');
 define('DEFAULT_CRAWL_URL',	'http://www.stdio.vn/articles/read/');
 define('SAVE_PATH', 		'crawl_data/');
 
-define('AJAX_DELIMITER', 		'~~~');
-define('CHAR_SPACE',			' ');
+define('AJAX_DELIMITER', 	'~~~');
+define('CHAR_SPACE',		' ');
+define('CHAR_EMPTY',	    '');
+define('CONTROLLER_INDEX',  CHAR_EMPTY);
 
 // DEVICE DEFINITION
 define('DEVICE_UNKNOWN',	0);
 define('DEVICE_PC',			1);
 define('DEVICE_PHONE',		2);
 define('DEVICE_TABLET',		3);
-
-define('CHAR_EMPTY',	'');
 
 define('DEBUG_MODE', true);

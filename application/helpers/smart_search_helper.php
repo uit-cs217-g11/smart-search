@@ -124,20 +124,4 @@ function GetPaging($page_num, $page_count, $page_limit, $page_controller, $page_
 	return $STR_PAGING;
 }
 
-function tokenizing($str)
-{
-	$word_segments = explode(' ', $str);
-	$tokens = array();
-	
-	while(count($word_segments) > 0)
-	{
-		for($i = 4; $i >= 1; $i--)
-		{
-			$word = implode(' ', array_slice($word_segments, 0, $i));
-			
-			
-		}
-	}
-}
-
 ?>
