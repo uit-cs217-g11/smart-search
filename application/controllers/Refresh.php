@@ -332,6 +332,5 @@ class Refresh extends MY_Controller
 		// 	echo $word;
 		// 	break;
 		// }
-		
 	}
 }

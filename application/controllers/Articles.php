@@ -109,9 +109,9 @@ class Articles extends MY_Controller
 		
 		$PAGE_COUNT = $this->articles_model->CountArticleByKeywords($keywords);
 
-		//$this->data['keywords'] = $search_str;
+		$this->data['keywords'] = $search_str;
 		
-		$this->data['keywords'] = implode('|', $keywords);
+		//$this->data['keywords'] = implode('|', $keywords);
 		$this->data['articles_brief'] = $this->articles_model->SelectArticlesBriefByKeywords($keywords, $PAGE_OFFSET, $PAGE_LIMIT);
 		
 		$this->data['PAGINATION_STR'] = GetPaging($PAGE_NUM, $PAGE_COUNT, $PAGE_LIMIT, 'articles', 'search', -1, $search_str_encode);
