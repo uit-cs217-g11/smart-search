@@ -10,7 +10,7 @@
 				<div class="table">
 				<?php foreach($developers as $item) { ?>
 					<div class="row">
-						<?php $user_avatar = URL_HOME.'/statics/external_data/developers/'.$item->id.'_avatar_256.png?'.time(); ?>
+						<?php $user_avatar = URL_HOME.'/statics/external_data/developers/'.$item->avatar.'?'.time(); ?>
 						<a class="avatar" style="background:url('<?=$user_avatar?>')" href="<?=$item->url?>"></a>
 						
 						<a class="name" href="<?=$item->url?>"><?=$item->first_name . CHAR_SPACE . $item->last_name?></a>

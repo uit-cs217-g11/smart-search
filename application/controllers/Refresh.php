@@ -311,26 +311,15 @@ class Refresh extends MY_Controller
 		$this->dictionaries_model->InsertDictionaries($dicts);
 	}
 	
-	public function load_stopwords($path = '')
+	public function tokenizing($limit = 0, $offset = 0)
 	{
-		return FALSE;
-		// if($path == '')
-		// {
-		// 	echo 'FAILED';
-		// 	return FALSE;
-		// }
+		$tbl_articles = 'articles';
 		
-		// $this->load->helper("file");
-		// $this->load->model('dictionaries_model');
-		// $words = file($path);
+		$articles = $this->X_model->SelectAllX($tbl_articles, $limit, $offset);
 		
-		// if($words == '')
-		// 	return FALSE;
+		foreach($articles as $item)
+		{
 			
-		// foreach($words as $word)
-		// {
-		// 	echo $word;
-		// 	break;
-		// }
+		}
 	}
 }

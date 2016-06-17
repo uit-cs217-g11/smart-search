@@ -61,7 +61,7 @@ class Articles_model extends CI_Model
 		}
 		
 		$this->db->group_by('article_id');
-		$this->db->order_by('weight', 'desc');
+		$this->db->order_by('sum_weight', 'desc');
 		
 		if ($limit > 0)
 		{

@@ -281,7 +281,7 @@ namespace LollipopUI
 
 					foreach (KeyValuePair<string, int> _word in _distinctWordsCounting)
 					{
-						if (!Dictionary.IsInStopWordList(_word.Key) && _word.Value >= 40)
+						if (!Dictionary.IsInStopWordList(_word.Key) && _word.Value <= 10)
 						{
 							Dictionary.AddWord("TechicalWordsLibrary.txt", _word.Key);
 						}

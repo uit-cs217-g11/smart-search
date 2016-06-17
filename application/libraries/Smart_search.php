@@ -22,9 +22,7 @@ class Smart_search {
 								CONTROLLER_INDEX:$this->CI->uri->segment(1);
 		$this->_METHOD		= 	$this->CI->uri->segment(2)=='index'?
 								CONTROLLER_INDEX:$this->CI->uri->segment(2);
-		
-		$this->_URL['STATICS']			= $this->GetStaticsURL();
-		
+
 		$this->CI->load->model('dictionaries_model');
 	}
 
@@ -86,11 +84,6 @@ class Smart_search {
 	{
         $new_url = str_replace('_', '-', $text);
 		return url_title(convert_accented_characters(trim($this->U2A($new_url))), '-', TRUE);
-	}
-
-	function GetStaticsURL()
-	{
-		return 'http://statics.stdio.vn';
 	}
 
 	function BuildElement($content, $class, $tag = 'div', $title = CHAR_EMPTY, $id = CHAR_EMPTY)

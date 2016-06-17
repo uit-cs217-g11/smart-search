@@ -9,6 +9,8 @@ function InitLibrary(&$instance)
 	$instance->load->helper('text_helper');
 	$instance->load->helper('date_helper');
 	
+	$instance->load->model('X_model');
+	
 	$instance->load->library(array(	'smart_search'
 							));
 }
